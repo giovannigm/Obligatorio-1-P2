@@ -3,7 +3,8 @@ import java.util.Scanner;
 import clase.Jugador;
 
 public class JuegoTriangulos {
-    private static Jugador[] jugadores = new Jugador[2];
+    private static final int MAX_JUGADORES = 2;
+    private static Jugador[] jugadores = new Jugador[MAX_JUGADORES];
     private static int jugadoresRegistrados = 0;
 
     public static void main(String[] args) {
@@ -76,7 +77,7 @@ public class JuegoTriangulos {
     }
 
     public static void registrarJugador(Scanner scanner) {
-        if (jugadoresRegistrados >= 2) {
+        if (jugadoresRegistrados >= MAX_JUGADORES) {
             System.out.println("");
             System.out.println("*-------------------------------------------*");
             System.out.println("No se pueden registrar más de dos jugadores.");
