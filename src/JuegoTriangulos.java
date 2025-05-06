@@ -88,9 +88,9 @@ public class JuegoTriangulos {
 
         // Pedir el nombre del jugador y verificar unicidad
         String nombre;
-        boolean nombreUnico;
+        boolean esNombreUnico;
         do {
-            nombreUnico = true;
+            esNombreUnico = true;
             System.out.print("Ingrese el nombre del Jugador: ");
             nombre = scanner.nextLine();
 
@@ -98,11 +98,11 @@ public class JuegoTriangulos {
             for (int i = 0; i < jugadoresRegistrados; i++) {
                 if (jugadores[i].getNombre().equalsIgnoreCase(nombre)) {
                     System.out.println("El nombre ya está en uso. Por favor, ingrese un nombre único.");
-                    nombreUnico = false;
+                    esNombreUnico = false;
                     break;
                 }
             }
-        } while (!nombreUnico);
+        } while (!esNombreUnico);
 
         // Pedir la edad del jugador con validación
         int edad = -1;
