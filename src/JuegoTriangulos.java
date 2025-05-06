@@ -22,7 +22,7 @@ public class JuegoTriangulos {
 
         // Crear un Scanner para leer la entrada
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese una opción: ");
+        System.out.print("Ingrese una opción: ");
 
         int opcion = -1;
         while (opcion != 5) {
@@ -32,15 +32,13 @@ public class JuegoTriangulos {
                 switch (opcion) {
                     case 1:
                         registrarJugador(scanner);
-                        // Aquí puedes agregar la lógica para registrar jugadores
                         break;
                     case 2:
                         System.out.println("Opción 2 seleccionada: Configurar partida");
                         // Aquí puedes agregar la lógica para configurar la partida
                         break;
                     case 3:
-                        System.out.println("Opción 3 seleccionada: Jugar partida");
-                        // Aquí puedes agregar la lógica para jugar la partida
+                        jugarPartida();
                         break;
                     case 4:
                         System.out.println("Opción 4 seleccionada: Mostrar ranking");
@@ -59,7 +57,7 @@ public class JuegoTriangulos {
             if (opcion != 5) {
                 System.out.println("");
                 mostrarMenu();
-                System.out.println("\nIngrese una opción: ");
+                System.out.print("\nIngrese una opción: ");
             }
         }
         scanner.close();
@@ -133,6 +131,19 @@ public class JuegoTriangulos {
             System.out.println(
                     "Jugador " + (i + 1) + ": " + jugadores[i].getNombre() + " , Edad: " +
                             jugadores[i].getEdad());
+        }
+    }
+
+    public static void jugarPartida() {
+        if (jugadoresRegistrados >= 2) {
+            //  Aca adentro va el código para jugar la partida
+            System.out.println("");
+            System.out.println("GENIAL!!, vamos a Jugar");
+        } else {
+            // Mensaje de error si no hay suficientes jugadores registrados
+            System.out.println("");
+            System.out.println("No hay suficientes jugadores registrados para jugar.");
+            System.out.println("Por favor, registre al menos 2 jugadores antes de jugar.");
         }
     }
 }
