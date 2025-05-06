@@ -38,10 +38,10 @@ public class JuegoTriangulos {
                         // Aquí puedes agregar la lógica para configurar la partida
                         break;
                     case 3:
-                        jugarPartida();
+                        jugarPartida(scanner);
                         break;
                     case 4:
-                        System.out.println("Opción 4 seleccionada: Mostrar ranking");
+                        mostrarRanking();
                         // Aquí puedes agregar la lógica para mostrar el ranking
                         break;
                     case 5:
@@ -133,16 +133,70 @@ public class JuegoTriangulos {
         }
     }
 
-    public static void jugarPartida() {
+    public static void jugarPartida(Scanner scanner) {
         if (jugadoresRegistrados >= MIN_JUGADORES) {
-            //  Aca adentro va el código para jugar la partida
-            System.out.println("");
-            System.out.println("GENIAL!!, vamos a Jugar");
+            System.out.println("\nGENIAL!!, vamos a Jugar");
+
+            // Mostrar jugadores registrados
+            System.out.println("\nJugadores registrados:");
+            for (int i = 0; i < jugadoresRegistrados; i++) {
+                System.out.println((i + 1) + ". " + jugadores[i].getNombre());
+            }
+
+            // Seleccionar jugadores
+            int jugadorBlanco = -1;
+            int jugadorNegro = -1;
+
+            while (jugadorBlanco < 1 || jugadorBlanco > jugadoresRegistrados) {
+                System.out.print("Seleccione el número del jugador blanco: ");
+                if (scanner.hasNextInt()) {
+                    jugadorBlanco = scanner.nextInt();
+                    if (jugadorBlanco < 1 || jugadorBlanco > jugadoresRegistrados) {
+                        System.out.println("Número inválido. Intente nuevamente.");
+                    }
+                } else {
+                    System.out.println("Entrada inválida. Por favor, ingrese un número.");
+                    scanner.next(); // Consumir la entrada inválida
+                }
+            }
+
+            while (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados || jugadorNegro == jugadorBlanco) {
+                System.out.print("Seleccione el número del jugador negro: ");
+                if (scanner.hasNextInt()) {
+                    jugadorNegro = scanner.nextInt();
+                    if (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados) {
+                        System.out.println("Número inválido. Intente nuevamente.");
+                    } else if (jugadorNegro == jugadorBlanco) {
+                        System.out.println("El jugador negro no puede ser el mismo que el jugador blanco. Intente nuevamente.");
+                    }
+                } else {
+                    System.out.println("Entrada inválida. Por favor, ingrese un número.");
+                    scanner.next(); // Consumir la entrada inválida
+                }
+            }
+
+            // Mostrar selección final
+            System.out.println("\nJugador blanco: " + jugadores[jugadorBlanco - 1].getNombre());
+            System.out.println("Jugador negro: " + jugadores[jugadorNegro - 1].getNombre());
+
+            // Agregar lógica para jugar partida entre los jugadores (NICO)
         } else {
-            // Mensaje de error si no hay suficientes jugadores registrados
-            System.out.println("");
-            System.out.println("No hay suficientes jugadores registrados para jugar.");
+            System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
             System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes de jugar.");
+        }
+    }
+
+    public static void mostrarRanking() {
+        // Aquí puedes agregar la lógica para mostrar el ranking
+        System.out.println("Ranking de jugadores:");
+        if (jugadoresRegistrados >= MIN_JUGADORES) {
+            for (int i = 0; i < jugadoresRegistrados; i++) {
+                System.out.println((i + 1) + ". " + jugadores[i].getNombre() + " | Partidas ganadas: " +
+                        jugadores[i].getPartidasGanadas());
+            }
+        }else {
+            System.out.println("");
+            System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes.");
         }
     }
 }
