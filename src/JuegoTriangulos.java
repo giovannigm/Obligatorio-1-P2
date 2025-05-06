@@ -3,8 +3,8 @@ import java.util.Scanner;
 import clase.Jugador;
 
 public class JuegoTriangulos {
-    private static final int MAX_JUGADORES = 2;
-    private static Jugador[] jugadores = new Jugador[MAX_JUGADORES];
+    private static final int MIN_JUGADORES = 2;
+    private static Jugador[] jugadores = new Jugador[10]; // Capacidad inicial de 10 jugadores
     private static int jugadoresRegistrados = 0;
 
     public static void main(String[] args) {
@@ -75,10 +75,9 @@ public class JuegoTriangulos {
     }
 
     public static void registrarJugador(Scanner scanner) {
-        if (jugadoresRegistrados >= MAX_JUGADORES) {
-            System.out.println("");
-            System.out.println("*-------------------------------------------*");
-            System.out.println("No se pueden registrar más de dos jugadores.");
+        if (jugadoresRegistrados >= jugadores.length) {
+            System.out.println("\n*-------------------------------------------*");
+            System.out.println("Se alcanzó el límite de jugadores registrados.");
             System.out.println("*-------------------------------------------*");
             return;
         }
@@ -135,7 +134,7 @@ public class JuegoTriangulos {
     }
 
     public static void jugarPartida() {
-        if (jugadoresRegistrados >= 2) {
+        if (jugadoresRegistrados >= MIN_JUGADORES) {
             //  Aca adentro va el código para jugar la partida
             System.out.println("");
             System.out.println("GENIAL!!, vamos a Jugar");
@@ -143,7 +142,7 @@ public class JuegoTriangulos {
             // Mensaje de error si no hay suficientes jugadores registrados
             System.out.println("");
             System.out.println("No hay suficientes jugadores registrados para jugar.");
-            System.out.println("Por favor, registre al menos 2 jugadores antes de jugar.");
+            System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes de jugar.");
         }
     }
 }
