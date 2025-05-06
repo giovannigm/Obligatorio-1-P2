@@ -110,8 +110,8 @@ public class JuegoTriangulos {
             System.out.print("Ingrese la edad del jugador (solo números): ");
             if (scanner.hasNextInt()) {
                 edad = scanner.nextInt();
-                if (edad < 0) {
-                    System.out.println("La edad no puede ser negativa. Intente nuevamente.");
+                if (edad <= 0) {
+                    System.out.println("La edad debe ser un número positivo mayor que cero. Intente nuevamente.");
                 }
             } else {
                 System.out.println("Entrada inválida. Por favor, ingrese un número.");
