@@ -167,7 +167,8 @@ public class JuegoTriangulos {
                     if (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados) {
                         System.out.println("Número inválido. Intente nuevamente.");
                     } else if (jugadorNegro == jugadorBlanco) {
-                        System.out.println("El jugador negro no puede ser el mismo que el jugador blanco. Intente nuevamente.");
+                        System.out.println(
+                                "El jugador negro no puede ser el mismo que el jugador blanco. Intente nuevamente.");
                     }
                 } else {
                     System.out.println("Entrada inválida. Por favor, ingrese un número.");
@@ -187,14 +188,23 @@ public class JuegoTriangulos {
     }
 
     public static void mostrarRanking() {
-        // Aquí puedes agregar la lógica para mostrar el ranking
-        System.out.println("Ranking de jugadores:");
         if (jugadoresRegistrados >= MIN_JUGADORES) {
+            System.out.println("Ranking de jugadores");
+            System.out.println("");
+            // Calcular el ancho máximo del nombre de los jugadores
+            int maxNombreLength = 0;
             for (int i = 0; i < jugadoresRegistrados; i++) {
-                System.out.println((i + 1) + ". " + jugadores[i].getNombre() + " | Partidas ganadas: " +
-                        jugadores[i].getPartidasGanadas());
+                maxNombreLength = Math.max(maxNombreLength, jugadores[i].getNombre().length());
             }
-        }else {
+
+            // Mostrar el ranking con formato centrado
+            for (int i = 0; i < jugadoresRegistrados; i++) {
+                String nombre = jugadores[i].getNombre();
+                int espacios = maxNombreLength - nombre.length();
+                String padding = " ".repeat(espacios);
+                System.out.println((i + 1) + ". " + nombre + padding + " |" + jugadores[i].getPartidasGanadas());
+            }
+        } else {
             System.out.println("");
             System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes.");
         }
