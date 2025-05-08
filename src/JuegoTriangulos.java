@@ -1,7 +1,5 @@
 import java.util.Scanner;
-
 import clase.Jugador;
-import clase.Tablero;
 
 public class JuegoTriangulos {
     private static final int MIN_JUGADORES = 2;
@@ -17,6 +15,11 @@ public class JuegoTriangulos {
         System.out.println("| Bienvenidos al juego triángulos! |");
         System.out.println("+----------------------------------+");
         System.out.println(" ");
+
+        // Agregar jugadores iniciales para pruebas
+        jugadores[0] = new Jugador("Jugador1", 20);
+        jugadores[1] = new Jugador("Jugador2", 25);
+        jugadoresRegistrados = 2;
 
         // Mostrar el menú principal usando el método mostrarMenu
         mostrarMenu();
@@ -43,7 +46,6 @@ public class JuegoTriangulos {
                         break;
                     case 4:
                         mostrarRanking();
-                        // Aquí puedes agregar la lógica para mostrar el ranking
                         break;
                     case 5:
                         System.out.println("Saliendo del juego. ¡Hasta luego!");
@@ -62,7 +64,6 @@ public class JuegoTriangulos {
             }
         }
         scanner.close();
-
     }
 
     public static void mostrarMenu() {
@@ -136,12 +137,24 @@ public class JuegoTriangulos {
 
     public static void jugarPartida(Scanner scanner) {
         // Crear un tablero para la partida
-        Tablero tablero = new Tablero(); // Ejemplo: tablero
-
+        Tablero tablero = new Tablero();
         tablero.mostrarTablero(); // Mostrar el tablero inicial
 
         if (jugadoresRegistrados >= MIN_JUGADORES) {
             System.out.println("\nGENIAL!!, vamos a Jugar");
+            System.out.println("\nInstrucciones para colocar bandas:");
+            System.out.println("1. El formato es: [Letra][Número][Dirección]");
+            System.out.println("   Ejemplo: A1Q (coloca una banda en A1 en dirección Q)");
+            System.out.println("2. Las direcciones disponibles son:");
+            System.out.println("   Q: Diagonal superior izquierda (\\)");
+            System.out.println("   E: Diagonal superior derecha (/)");
+            System.out.println("   D: Horizontal derecha (-)");
+            System.out.println("   C: Diagonal inferior derecha (\\)");
+            System.out.println("   Z: Diagonal inferior izquierda (/)");
+            System.out.println("   A: Horizontal izquierda (-)");
+            System.out.println("3. También puedes especificar la longitud: [Letra][Número][Dirección][Longitud]");
+            System.out.println("   Ejemplo: A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)");
+            System.out.println("\nNota: Las letras van de A a M y los números de 1 a 7");
 
             // Mostrar jugadores registrados
             System.out.println("\nJugadores registrados:");
@@ -186,11 +199,85 @@ public class JuegoTriangulos {
             System.out.println("\nJugador blanco: " + jugadores[jugadorBlanco - 1].getNombre());
             System.out.println("Jugador negro: " + jugadores[jugadorNegro - 1].getNombre());
 
-            // Agregar lógica para jugar partida entre los jugadores (NICO)
+            // Lógica de turnos
+            int turno = 0; // 0: blanco, 1: negro
+            boolean continuar = true;
+            scanner.nextLine(); // Limpiar buffer
+            while (continuar) {
+                String jugadorActual = (turno == 0) ? jugadores[jugadorBlanco - 1].getNombre()
+                        : jugadores[jugadorNegro - 1].getNombre();
+                System.out.println("\nTurno de: " + jugadorActual);
+                System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
+                String input = scanner.nextLine();
+
+                if (input.equalsIgnoreCase("salir")) {
+                    continuar = false;
+                    continue;
+                }
+
+                try {
+                    Jugada jugada = JugadaParser.interpretar(input);
+                    System.out.println("Jugada interpretada: " + jugada);
+
+                    if (tablero.colocarBanda(jugada)) {
+                        System.out.println("\nTablero actualizado:");
+                        tablero.mostrarTablero();
+                        // Detección de triángulo: verifica si la última jugada forma un triángulo con
+                        // cualquier par de celdas adyacentes
+                        if (detectarTrianguloSimple(tablero, jugada)) {
+                            System.out.println("¡Felicidades " + jugadorActual + "! Formaste un triángulo!");
+                        }
+                        // Cambiar de turno
+                        turno = 1 - turno;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error al interpretar la jugada: " + e.getMessage());
+                }
+            }
         } else {
             System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
             System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes de jugar.");
         }
+    }
+
+    // Detección de triángulo: verifica si la última jugada forma un triángulo con
+    // cualquier par de celdas adyacentes
+    private static boolean detectarTrianguloSimple(Tablero tablero, Jugada jugada) {
+        int fila = jugada.getFila() - 1;
+        int columna = jugada.getColumna() - 'A';
+        char[][] grid = tablero.getPuntos();
+        // Direcciones de adyacencia en hexágono (6 direcciones)
+        int[][] dirs = {
+                { -1, -1 }, // arriba-izquierda
+                { -1, 1 }, // arriba-derecha
+                { 0, -2 }, // izquierda
+                { 0, 2 }, // derecha
+                { 1, -1 }, // abajo-izquierda
+                { 1, 1 } // abajo-derecha
+        };
+        // Buscar todas las combinaciones de pares de vecinos
+        for (int i = 0; i < dirs.length; i++) {
+            for (int j = i + 1; j < dirs.length; j++) {
+                int f1 = fila + dirs[i][0];
+                int c1 = columna + dirs[i][1];
+                int f2 = fila + dirs[j][0];
+                int c2 = columna + dirs[j][1];
+                if (f1 >= 0 && f1 < 7 && c1 >= 0 && c1 < 13 &&
+                        f2 >= 0 && f2 < 7 && c2 >= 0 && c2 < 13) {
+                    if (grid[f1][c1] != '*' && grid[f1][c1] != ' ' &&
+                            grid[f2][c2] != '*' && grid[f2][c2] != ' ' &&
+                            grid[fila][columna] != '*' && grid[fila][columna] != ' ') {
+                        // Verificar que los vecinos también sean adyacentes entre sí
+                        for (int[] d : dirs) {
+                            if (f1 + d[0] == f2 && c1 + d[1] == c2) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static void mostrarRanking() {

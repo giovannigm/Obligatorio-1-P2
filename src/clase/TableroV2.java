@@ -1,13 +1,13 @@
 package clase;
 
-public class Tablero {
+public class TableroV2 {
     private int cantFilas = 7; // Número de filas del tablero
     private int cantColumnas = 13; // Número de columnas del tablero
     private String[][] tablero;
 
     // Constructor para inicializar el tablero con dimensiones fijas (7 filas, 13
     // columnas)
-    public Tablero() {
+    public TableroV2() {
         this.tablero = new String[cantFilas][cantColumnas];
         inicializarTablero();
     }
@@ -16,7 +16,8 @@ public class Tablero {
     // crecientes
     private void inicializarTablero() {
         for (int fila = 0; fila < cantFilas; fila++) {
-            int espaciosVacios = Math.abs((cantFilas / 2) - fila); // Calcula espacios vacíos según la distancia a la mitad
+            int espaciosVacios = Math.abs((cantFilas / 2) - fila); // Calcula espacios vacíos según la distancia a la
+                                                                   // mitad
             for (int columna = 0; columna < cantColumnas; columna++) {
                 // Dejar espacios vacíos al inicio y al final de cada fila
                 if (columna < espaciosVacios || columna >= cantColumnas - espaciosVacios) {
@@ -53,5 +54,4 @@ public class Tablero {
         }
     }
 
-   
 }
