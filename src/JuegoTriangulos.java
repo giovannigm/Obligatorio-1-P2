@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 import clase.Jugador;
+import clase.Tablero;
 
 public class JuegoTriangulos {
     private static final int MIN_JUGADORES = 2;
@@ -134,6 +135,11 @@ public class JuegoTriangulos {
     }
 
     public static void jugarPartida(Scanner scanner) {
+        // Crear un tablero para la partida
+        Tablero tablero = new Tablero(); // Ejemplo: tablero
+
+        tablero.mostrarTablero(); // Mostrar el tablero inicial
+
         if (jugadoresRegistrados >= MIN_JUGADORES) {
             System.out.println("\nGENIAL!!, vamos a Jugar");
 
