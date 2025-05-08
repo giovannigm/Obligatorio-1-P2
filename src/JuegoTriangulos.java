@@ -199,10 +199,15 @@ public class JuegoTriangulos {
             System.out.println("\nJugador blanco: " + jugadores[jugadorBlanco - 1].getNombre());
             System.out.println("Jugador negro: " + jugadores[jugadorNegro - 1].getNombre());
 
-            // Iniciar el juego
+            // Lógica de turnos
+            int turno = 0; // 0: blanco, 1: negro
             boolean continuar = true;
+            scanner.nextLine(); // Limpiar buffer
             while (continuar) {
-                System.out.println("\nIngrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
+                String jugadorActual = (turno == 0) ? jugadores[jugadorBlanco - 1].getNombre()
+                        : jugadores[jugadorNegro - 1].getNombre();
+                System.out.println("\nTurno de: " + jugadorActual);
+                System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
                 String input = scanner.nextLine();
 
                 if (input.equalsIgnoreCase("salir")) {
@@ -217,6 +222,13 @@ public class JuegoTriangulos {
                     if (tablero.colocarBanda(jugada)) {
                         System.out.println("\nTablero actualizado:");
                         tablero.mostrarTablero();
+                        // Detección de triángulo: verifica si la última jugada forma un triángulo con
+                        // cualquier par de celdas adyacentes
+                        if (detectarTrianguloSimple(tablero, jugada)) {
+                            System.out.println("¡Felicidades " + jugadorActual + "! Formaste un triángulo!");
+                        }
+                        // Cambiar de turno
+                        turno = 1 - turno;
                     }
                 } catch (Exception e) {
                     System.out.println("Error al interpretar la jugada: " + e.getMessage());
@@ -226,6 +238,46 @@ public class JuegoTriangulos {
             System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
             System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes de jugar.");
         }
+    }
+
+    // Detección de triángulo: verifica si la última jugada forma un triángulo con
+    // cualquier par de celdas adyacentes
+    private static boolean detectarTrianguloSimple(Tablero tablero, Jugada jugada) {
+        int fila = jugada.getFila() - 1;
+        int columna = jugada.getColumna() - 'A';
+        char[][] grid = tablero.getPuntos();
+        // Direcciones de adyacencia en hexágono (6 direcciones)
+        int[][] dirs = {
+                { -1, -1 }, // arriba-izquierda
+                { -1, 1 }, // arriba-derecha
+                { 0, -2 }, // izquierda
+                { 0, 2 }, // derecha
+                { 1, -1 }, // abajo-izquierda
+                { 1, 1 } // abajo-derecha
+        };
+        // Buscar todas las combinaciones de pares de vecinos
+        for (int i = 0; i < dirs.length; i++) {
+            for (int j = i + 1; j < dirs.length; j++) {
+                int f1 = fila + dirs[i][0];
+                int c1 = columna + dirs[i][1];
+                int f2 = fila + dirs[j][0];
+                int c2 = columna + dirs[j][1];
+                if (f1 >= 0 && f1 < 7 && c1 >= 0 && c1 < 13 &&
+                        f2 >= 0 && f2 < 7 && c2 >= 0 && c2 < 13) {
+                    if (grid[f1][c1] != '*' && grid[f1][c1] != ' ' &&
+                            grid[f2][c2] != '*' && grid[f2][c2] != ' ' &&
+                            grid[fila][columna] != '*' && grid[fila][columna] != ' ') {
+                        // Verificar que los vecinos también sean adyacentes entre sí
+                        for (int[] d : dirs) {
+                            if (f1 + d[0] == f2 && c1 + d[1] == c2) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static void mostrarRanking() {

@@ -31,7 +31,7 @@ public class Tablero {
         // Imprimir las coordenadas alfabéticas de las columnas (A-M) con espacio extra
         System.out.print("    ");
         for (int columna = 0; columna < columnas; columna++) {
-            System.out.printf("%3c ", (char) ('A' + columna));
+            System.out.printf("%5c ", (char) ('A' + columna));
         }
         System.out.println();
         System.out.println();
@@ -40,7 +40,7 @@ public class Tablero {
         for (int fila = 0; fila < filas; fila++) {
             System.out.printf("%2d  ", fila + 1);
             for (int columna = 0; columna < columnas; columna++) {
-                System.out.printf("%3c ", puntos[fila][columna]);
+                System.out.printf("%5c ", puntos[fila][columna]);
             }
             System.out.println();
             // Línea vacía entre filas para mayor separación visual
@@ -125,5 +125,9 @@ public class Tablero {
             case 'Q', 'C' -> '\\';
             default -> '*';
         };
+    }
+
+    public char[][] getPuntos() {
+        return puntos;
     }
 }
