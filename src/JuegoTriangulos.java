@@ -16,6 +16,11 @@ public class JuegoTriangulos {
         System.out.println("+----------------------------------+");
         System.out.println(" ");
 
+        // Agregar jugadores iniciales para pruebas
+        jugadores[0] = new Jugador("Jugador1", 20);
+        jugadores[1] = new Jugador("Jugador2", 25);
+        jugadoresRegistrados = 2;
+
         // Mostrar el menú principal usando el método mostrarMenu
         mostrarMenu();
 
@@ -137,6 +142,19 @@ public class JuegoTriangulos {
 
         if (jugadoresRegistrados >= MIN_JUGADORES) {
             System.out.println("\nGENIAL!!, vamos a Jugar");
+            System.out.println("\nInstrucciones para colocar bandas:");
+            System.out.println("1. El formato es: [Letra][Número][Dirección]");
+            System.out.println("   Ejemplo: A1Q (coloca una banda en A1 en dirección Q)");
+            System.out.println("2. Las direcciones disponibles son:");
+            System.out.println("   Q: Diagonal superior izquierda (\\)");
+            System.out.println("   E: Diagonal superior derecha (/)");
+            System.out.println("   D: Horizontal derecha (-)");
+            System.out.println("   C: Diagonal inferior derecha (\\)");
+            System.out.println("   Z: Diagonal inferior izquierda (/)");
+            System.out.println("   A: Horizontal izquierda (-)");
+            System.out.println("3. También puedes especificar la longitud: [Letra][Número][Dirección][Longitud]");
+            System.out.println("   Ejemplo: A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)");
+            System.out.println("\nNota: Las letras van de A a M y los números de 1 a 7");
 
             // Mostrar jugadores registrados
             System.out.println("\nJugadores registrados:");
