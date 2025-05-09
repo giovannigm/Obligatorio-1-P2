@@ -136,7 +136,7 @@ public class JuegoTriangulos {
     }
 
     public static void jugarPartida(Scanner scanner) {
-        // Crear un tablero para la partida
+        // Crear un tablero para la partida usando la nueva clase Tablero
         Tablero tablero = new Tablero();
         tablero.mostrarTablero(); // Mostrar el tablero inicial
 
@@ -219,14 +219,18 @@ public class JuegoTriangulos {
                     Jugada jugada = JugadaParser.interpretar(input);
                     System.out.println("Jugada interpretada: " + jugada);
 
+                    tablero.limpiarTriangulo(); // Limpiar cualquier triángulo anterior
                     if (tablero.colocarBanda(jugada)) {
-                        System.out.println("\nTablero actualizado:");
-                        tablero.mostrarTablero();
-                        // Detección de triángulo: verifica si la última jugada forma un triángulo con
-                        // cualquier par de celdas adyacentes
+                        // Detección de triángulo: verifica si la última jugada forma un triángulo
                         if (detectarTrianguloSimple(tablero, jugada)) {
+                            // Marcar el triángulo en el tablero
+                            int fila = (jugada.getFila() - 1) * 2;
+                            int columna = (jugada.getColumna() - 'A') * 2;
+                            tablero.marcarTriangulo(fila, columna);
                             System.out.println("¡Felicidades " + jugadorActual + "! Formaste un triángulo!");
                         }
+                        System.out.println("\nTablero actualizado:");
+                        tablero.mostrarTablero();
                         // Cambiar de turno
                         turno = 1 - turno;
                     }
@@ -241,39 +245,44 @@ public class JuegoTriangulos {
     }
 
     // Detección de triángulo: verifica si la última jugada forma un triángulo con
-    // cualquier par de celdas adyacentes
+    // cualquier par de celdas adyacentes (ahora solo marca el centro en un espacio
+    // entre puntos)
     private static boolean detectarTrianguloSimple(Tablero tablero, Jugada jugada) {
-        int fila = jugada.getFila() - 1;
-        int columna = jugada.getColumna() - 'A';
-        char[][] grid = tablero.getPuntos();
-        // Direcciones de adyacencia en hexágono (6 direcciones)
+        int fila = (jugada.getFila() - 1) * 2;
+        int columna = (jugada.getColumna() - 'A') * 2;
+        String[][] grid = tablero.getTablero();
+        int maxFila = grid.length;
+        int maxCol = grid[0].length;
+        // Direcciones de adyacencia en hexágono (6 direcciones, saltando a los puntos
+        // visibles)
         int[][] dirs = {
-                { -1, -1 }, // arriba-izquierda
-                { -1, 1 }, // arriba-derecha
-                { 0, -2 }, // izquierda
-                { 0, 2 }, // derecha
-                { 1, -1 }, // abajo-izquierda
-                { 1, 1 } // abajo-derecha
+                { -2, -2 }, // arriba-izquierda
+                { -2, 2 }, // arriba-derecha
+                { 0, -4 }, // izquierda
+                { 0, 4 }, // derecha
+                { 2, -2 }, // abajo-izquierda
+                { 2, 2 } // abajo-derecha
         };
-        // Buscar todas las combinaciones de pares de vecinos
-        for (int i = 0; i < dirs.length; i++) {
-            for (int j = i + 1; j < dirs.length; j++) {
-                int f1 = fila + dirs[i][0];
-                int c1 = columna + dirs[i][1];
-                int f2 = fila + dirs[j][0];
-                int c2 = columna + dirs[j][1];
-                if (f1 >= 0 && f1 < 7 && c1 >= 0 && c1 < 13 &&
-                        f2 >= 0 && f2 < 7 && c2 >= 0 && c2 < 13) {
-                    if (grid[f1][c1] != '*' && grid[f1][c1] != ' ' &&
-                            grid[f2][c2] != '*' && grid[f2][c2] != ' ' &&
-                            grid[fila][columna] != '*' && grid[fila][columna] != ' ') {
-                        // Verificar que los vecinos también sean adyacentes entre sí
-                        for (int[] d : dirs) {
-                            if (f1 + d[0] == f2 && c1 + d[1] == c2) {
-                                return true;
-                            }
-                        }
-                    }
+        // Buscar todos los posibles centros de triángulo (espacios entre puntos)
+        for (int d = 0; d < dirs.length; d++) {
+            int f1 = fila + dirs[d][0];
+            int c1 = columna + dirs[d][1];
+            int f2 = fila + dirs[(d + 1) % dirs.length][0];
+            int c2 = columna + dirs[(d + 1) % dirs.length][1];
+            int centerFila = (fila + f1 + f2) / 3;
+            int centerCol = (columna + c1 + c2) / 3;
+            // El centro debe estar en un espacio (índices impares)
+            if (centerFila >= 0 && centerFila < maxFila && centerCol >= 0 && centerCol < maxCol && centerFila % 2 == 1
+                    && centerCol % 2 == 1) {
+                // Verificar que haya bandas en los tres lados
+                if (!grid[(fila + f1) / 2][(columna + c1) / 2].equals("*")
+                        && !grid[(fila + f1) / 2][(columna + c1) / 2].equals(" ") &&
+                        !grid[(fila + f2) / 2][(columna + c2) / 2].equals("*")
+                        && !grid[(fila + f2) / 2][(columna + c2) / 2].equals(" ") &&
+                        !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals("*")
+                        && !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals(" ")) {
+                    tablero.marcarTriangulo(centerFila, centerCol);
+                    return true;
                 }
             }
         }
