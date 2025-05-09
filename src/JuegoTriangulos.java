@@ -140,154 +140,167 @@ public class JuegoTriangulos {
         Tablero tablero = new Tablero();
         tablero.mostrarTablero(); // Mostrar el tablero inicial
 
-        if (jugadoresRegistrados >= MIN_JUGADORES) {
-            System.out.println("\nGENIAL!!, vamos a Jugar");
-            System.out.println("\nInstrucciones para colocar bandas:");
-            System.out.println("1. El formato es: [Letra][Número][Dirección]");
-            System.out.println("   Ejemplo: A1Q (coloca una banda en A1 en dirección Q)");
-            System.out.println("2. Las direcciones disponibles son:");
-            System.out.println("   Q: Diagonal superior izquierda (\\)");
-            System.out.println("   E: Diagonal superior derecha (/)");
-            System.out.println("   D: Horizontal derecha (-)");
-            System.out.println("   C: Diagonal inferior derecha (\\)");
-            System.out.println("   Z: Diagonal inferior izquierda (/)");
-            System.out.println("   A: Horizontal izquierda (-)");
-            System.out.println("3. También puedes especificar la longitud: [Letra][Número][Dirección][Longitud]");
-            System.out.println("   Ejemplo: A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)");
-            System.out.println("\nNota: Las letras van de A a M y los números de 1 a 7");
+        // if (jugadoresRegistrados >= MIN_JUGADORES) {
+        // System.out.println("\nGENIAL!!, vamos a Jugar");
+        // System.out.println("\nInstrucciones para colocar bandas:");
+        // System.out.println("1. El formato es: [Letra][Número][Dirección]");
+        // System.out.println(" Ejemplo: A1Q (coloca una banda en A1 en dirección Q)");
+        // System.out.println("2. Las direcciones disponibles son:");
+        // System.out.println(" Q: Diagonal superior izquierda (\\)");
+        // System.out.println(" E: Diagonal superior derecha (/)");
+        // System.out.println(" D: Horizontal derecha (-)");
+        // System.out.println(" C: Diagonal inferior derecha (\\)");
+        // System.out.println(" Z: Diagonal inferior izquierda (/)");
+        // System.out.println(" A: Horizontal izquierda (-)");
+        // System.out.println("3. También puedes especificar la longitud:
+        // [Letra][Número][Dirección][Longitud]");
+        // System.out.println(" Ejemplo: A1Q3 (coloca una banda de longitud 3 en A1 en
+        // dirección Q)");
+        // System.out.println("\nNota: Las letras van de A a M y los números de 1 a 7");
 
-            // Mostrar jugadores registrados
-            System.out.println("\nJugadores registrados:");
-            for (int i = 0; i < jugadoresRegistrados; i++) {
-                System.out.println((i + 1) + ". " + jugadores[i].getNombre());
-            }
+        // // Mostrar jugadores registrados
+        // System.out.println("\nJugadores registrados:");
+        // for (int i = 0; i < jugadoresRegistrados; i++) {
+        // System.out.println((i + 1) + ". " + jugadores[i].getNombre());
+        // }
 
-            // Seleccionar jugadores
-            int jugadorBlanco = -1;
-            int jugadorNegro = -1;
+        // // Seleccionar jugadores
+        // int jugadorBlanco = -1;
+        // int jugadorNegro = -1;
 
-            while (jugadorBlanco < 1 || jugadorBlanco > jugadoresRegistrados) {
-                System.out.print("Seleccione el número del jugador blanco: ");
-                if (scanner.hasNextInt()) {
-                    jugadorBlanco = scanner.nextInt();
-                    if (jugadorBlanco < 1 || jugadorBlanco > jugadoresRegistrados) {
-                        System.out.println("Número inválido. Intente nuevamente.");
-                    }
-                } else {
-                    System.out.println("Entrada inválida. Por favor, ingrese un número.");
-                    scanner.next(); // Consumir la entrada inválida
-                }
-            }
+        // while (jugadorBlanco < 1 || jugadorBlanco > jugadoresRegistrados) {
+        // System.out.print("Seleccione el número del jugador blanco: ");
+        // if (scanner.hasNextInt()) {
+        // jugadorBlanco = scanner.nextInt();
+        // if (jugadorBlanco < 1 || jugadorBlanco > jugadoresRegistrados) {
+        // System.out.println("Número inválido. Intente nuevamente.");
+        // }
+        // } else {
+        // System.out.println("Entrada inválida. Por favor, ingrese un número.");
+        // scanner.next(); // Consumir la entrada inválida
+        // }
+        // }
 
-            while (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados || jugadorNegro == jugadorBlanco) {
-                System.out.print("Seleccione el número del jugador negro: ");
-                if (scanner.hasNextInt()) {
-                    jugadorNegro = scanner.nextInt();
-                    if (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados) {
-                        System.out.println("Número inválido. Intente nuevamente.");
-                    } else if (jugadorNegro == jugadorBlanco) {
-                        System.out.println(
-                                "El jugador negro no puede ser el mismo que el jugador blanco. Intente nuevamente.");
-                    }
-                } else {
-                    System.out.println("Entrada inválida. Por favor, ingrese un número.");
-                    scanner.next(); // Consumir la entrada inválida
-                }
-            }
+        // while (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados ||
+        // jugadorNegro == jugadorBlanco) {
+        // System.out.print("Seleccione el número del jugador negro: ");
+        // if (scanner.hasNextInt()) {
+        // jugadorNegro = scanner.nextInt();
+        // if (jugadorNegro < 1 || jugadorNegro > jugadoresRegistrados) {
+        // System.out.println("Número inválido. Intente nuevamente.");
+        // } else if (jugadorNegro == jugadorBlanco) {
+        // System.out.println(
+        // "El jugador negro no puede ser el mismo que el jugador blanco. Intente
+        // nuevamente.");
+        // }
+        // } else {
+        // System.out.println("Entrada inválida. Por favor, ingrese un número.");
+        // scanner.next(); // Consumir la entrada inválida
+        // }
+        // }
 
-            // Mostrar selección final
-            System.out.println("\nJugador blanco: " + jugadores[jugadorBlanco - 1].getNombre());
-            System.out.println("Jugador negro: " + jugadores[jugadorNegro - 1].getNombre());
+        // // Mostrar selección final
+        // System.out.println("\nJugador blanco: " + jugadores[jugadorBlanco -
+        // 1].getNombre());
+        // System.out.println("Jugador negro: " + jugadores[jugadorNegro -
+        // 1].getNombre());
 
-            // Lógica de turnos
-            int turno = 0; // 0: blanco, 1: negro
-            boolean continuar = true;
-            scanner.nextLine(); // Limpiar buffer
-            while (continuar) {
-                String jugadorActual = (turno == 0) ? jugadores[jugadorBlanco - 1].getNombre()
-                        : jugadores[jugadorNegro - 1].getNombre();
-                System.out.println("\nTurno de: " + jugadorActual);
-                System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
-                String input = scanner.nextLine();
+        // // Lógica de turnos
+        // int turno = 0; // 0: blanco, 1: negro
+        // boolean continuar = true;
+        // scanner.nextLine(); // Limpiar buffer
+        // while (continuar) {
+        // String jugadorActual = (turno == 0) ? jugadores[jugadorBlanco -
+        // 1].getNombre()
+        // : jugadores[jugadorNegro - 1].getNombre();
+        // System.out.println("\nTurno de: " + jugadorActual);
+        // System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para
+        // terminar:");
+        // String input = scanner.nextLine();
 
-                if (input.equalsIgnoreCase("salir")) {
-                    continuar = false;
-                    continue;
-                }
+        // if (input.equalsIgnoreCase("salir")) {
+        // continuar = false;
+        // continue;
+        // }
 
-                try {
-                    Jugada jugada = JugadaParser.interpretar(input);
-                    System.out.println("Jugada interpretada: " + jugada);
+        // try {
+        // Jugada jugada = JugadaParser.interpretar(input);
+        // System.out.println("Jugada interpretada: " + jugada);
 
-                    tablero.limpiarTriangulo(); // Limpiar cualquier triángulo anterior
-                    if (tablero.colocarBanda(jugada)) {
-                        // Detección de triángulo: verifica si la última jugada forma un triángulo
-                        if (detectarTrianguloSimple(tablero, jugada)) {
-                            // Marcar el triángulo en el tablero
-                            int fila = (jugada.getFila() - 1) * 2;
-                            int columna = (jugada.getColumna() - 'A') * 2;
-                            tablero.marcarTriangulo(fila, columna);
-                            System.out.println("¡Felicidades " + jugadorActual + "! Formaste un triángulo!");
-                        }
-                        System.out.println("\nTablero actualizado:");
-                        tablero.mostrarTablero();
-                        // Cambiar de turno
-                        turno = 1 - turno;
-                    }
-                } catch (Exception e) {
-                    System.out.println("Error al interpretar la jugada: " + e.getMessage());
-                }
-            }
-        } else {
-            System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
-            System.out.println("Por favor, registre al menos " + MIN_JUGADORES + " jugadores antes de jugar.");
-        }
+        // tablero.limpiarTriangulo(); // Limpiar cualquier triángulo anterior
+        // if (tablero.colocarBanda(jugada)) {
+        // // Detección de triángulo: verifica si la última jugada forma un triángulo
+        // if (detectarTrianguloSimple(tablero, jugada)) {
+        // // Marcar el triángulo en el tablero
+        // int fila = (jugada.getFila() - 1) * 2;
+        // int columna = (jugada.getColumna() - 'A') * 2;
+        // tablero.marcarTriangulo(fila, columna);
+        // System.out.println("¡Felicidades " + jugadorActual + "! Formaste un
+        // triángulo!");
+        // }
+        // System.out.println("\nTablero actualizado:");
+        // tablero.mostrarTablero();
+        // // Cambiar de turno
+        // turno = 1 - turno;
+        // }
+        // } catch (Exception e) {
+        // System.out.println("Error al interpretar la jugada: " + e.getMessage());
+        // }
+        // }
+        // } else {
+        // System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
+        // System.out.println("Por favor, registre al menos " + MIN_JUGADORES + "
+        // jugadores antes de jugar.");
+        // }
     }
 
     // Detección de triángulo: verifica si la última jugada forma un triángulo con
     // cualquier par de celdas adyacentes (ahora solo marca el centro en un espacio
     // entre puntos)
-    private static boolean detectarTrianguloSimple(Tablero tablero, Jugada jugada) {
-        int fila = (jugada.getFila() - 1) * 2;
-        int columna = (jugada.getColumna() - 'A') * 2;
-        String[][] grid = tablero.getTablero();
-        int maxFila = grid.length;
-        int maxCol = grid[0].length;
-        // Direcciones de adyacencia en hexágono (6 direcciones, saltando a los puntos
-        // visibles)
-        int[][] dirs = {
-                { -2, -2 }, // arriba-izquierda
-                { -2, 2 }, // arriba-derecha
-                { 0, -4 }, // izquierda
-                { 0, 4 }, // derecha
-                { 2, -2 }, // abajo-izquierda
-                { 2, 2 } // abajo-derecha
-        };
-        // Buscar todos los posibles centros de triángulo (espacios entre puntos)
-        for (int d = 0; d < dirs.length; d++) {
-            int f1 = fila + dirs[d][0];
-            int c1 = columna + dirs[d][1];
-            int f2 = fila + dirs[(d + 1) % dirs.length][0];
-            int c2 = columna + dirs[(d + 1) % dirs.length][1];
-            int centerFila = (fila + f1 + f2) / 3;
-            int centerCol = (columna + c1 + c2) / 3;
-            // El centro debe estar en un espacio (índices impares)
-            if (centerFila >= 0 && centerFila < maxFila && centerCol >= 0 && centerCol < maxCol && centerFila % 2 == 1
-                    && centerCol % 2 == 1) {
-                // Verificar que haya bandas en los tres lados
-                if (!grid[(fila + f1) / 2][(columna + c1) / 2].equals("*")
-                        && !grid[(fila + f1) / 2][(columna + c1) / 2].equals(" ") &&
-                        !grid[(fila + f2) / 2][(columna + c2) / 2].equals("*")
-                        && !grid[(fila + f2) / 2][(columna + c2) / 2].equals(" ") &&
-                        !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals("*")
-                        && !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals(" ")) {
-                    tablero.marcarTriangulo(centerFila, centerCol);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    // private static boolean detectarTrianguloSimple(Tablero tablero, Jugada
+    // jugada) {
+    // int fila = (jugada.getFila() - 1) * 2;
+    // int columna = (jugada.getColumna() - 'A') * 2;
+    // String[][] grid = tablero.getTablero();
+    // int maxFila = grid.length;
+    // int maxCol = grid[0].length;
+    // // Direcciones de adyacencia en hexágono (6 direcciones, saltando a los
+    // puntos
+    // // visibles)
+    // int[][] dirs = {
+    // { -2, -2 }, // arriba-izquierda
+    // { -2, 2 }, // arriba-derecha
+    // { 0, -4 }, // izquierda
+    // { 0, 4 }, // derecha
+    // { 2, -2 }, // abajo-izquierda
+    // { 2, 2 } // abajo-derecha
+    // };
+    // // Buscar todos los posibles centros de triángulo (espacios entre puntos)
+    // for (int d = 0; d < dirs.length; d++) {
+    // int f1 = fila + dirs[d][0];
+    // int c1 = columna + dirs[d][1];
+    // int f2 = fila + dirs[(d + 1) % dirs.length][0];
+    // int c2 = columna + dirs[(d + 1) % dirs.length][1];
+    // int centerFila = (fila + f1 + f2) / 3;
+    // int centerCol = (columna + c1 + c2) / 3;
+    // // El centro debe estar en un espacio (índices impares)
+    // if (centerFila >= 0 && centerFila < maxFila && centerCol >= 0 && centerCol <
+    // maxCol && centerFila % 2 == 1
+    // && centerCol % 2 == 1) {
+    // // Verificar que haya bandas en los tres lados
+    // if (!grid[(fila + f1) / 2][(columna + c1) / 2].equals("*")
+    // && !grid[(fila + f1) / 2][(columna + c1) / 2].equals(" ") &&
+    // !grid[(fila + f2) / 2][(columna + c2) / 2].equals("*")
+    // && !grid[(fila + f2) / 2][(columna + c2) / 2].equals(" ") &&
+    // !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals("*")
+    // && !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals(" ")) {
+    // tablero.marcarTriangulo(centerFila, centerCol);
+    // return true;
+    // }
+    // }
+    // }
+    // return false;
+    // }
 
     public static void mostrarRanking() {
         if (jugadoresRegistrados >= MIN_JUGADORES) {
