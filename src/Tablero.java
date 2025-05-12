@@ -18,14 +18,12 @@ public class Tablero {
         }
 
         // Definición de los puntos en filas impares
-        int inicio = 3; // TODO: hacer que se calcule dinamicamente
-        int fin = 10; // TODO: hacer que se calcule dinamicamente
+        int inicio = 3;
+        int fin = 10;
 
         for (int fila = 0; fila < filas; fila++) {
             if (fila % 2 == 0) {
-                System.out.println("fila: " + fila + " inicio: " + inicio + " fin: " + fin);
                 for (int columna = inicio; columna <= fin && columna < columnas; columna += 2) {
-                    System.out.println("             columna: " + columna);
                     tablero[fila][columna] = '*';
                 }
 
@@ -41,6 +39,69 @@ public class Tablero {
                 }
             }
         }
+    }
+
+    // Método para colocar una banda en el tablero
+    public boolean colocarBanda(int fila, int columna, char direccion, int cantidad) {
+        int deltaFila = 0;
+        int deltaColumna = 0;
+
+        switch (direccion) {
+            case 'D':
+                deltaColumna = 2;
+                break; // Este ➡️
+            case 'A':
+                deltaColumna = -2;
+                break; // Oeste ⬅️
+            case 'E':
+                deltaFila = -1;
+                deltaColumna = 1;
+                break; // Noreste ↗️
+            case 'Q':
+                deltaFila = -1;
+                deltaColumna = -1;
+                break; // Noroeste ↖️
+            case 'C':
+                deltaFila = 1;
+                deltaColumna = 1;
+                break; // Sureste ↘️
+            case 'Z':
+                deltaFila = 1;
+                deltaColumna = -1;
+                break; // Suroeste ↙️
+            default:
+                System.out.println("Dirección inválida.");
+                return false;
+        }
+
+        // Validación de límites y colocación
+        for (int i = 0; i < cantidad; i++) {
+            if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas) {
+                System.out.println("Se sale del tablero.");
+                return false;
+            }
+
+            if (tablero[fila][columna] == '*') {
+                System.out.println("No se puede colocar banda sobre un punto.");
+                return false;
+            }
+
+            tablero[fila][columna] = obtenerSimbolo(direccion);
+
+            fila += deltaFila;
+            columna += deltaColumna;
+        }
+        return true;
+    }
+
+    // Determina el símbolo correcto para la dirección
+    private char obtenerSimbolo(char direccion) {
+        return switch (direccion) {
+            case 'D', 'A' -> '-';
+            case 'Q', 'C' -> '/';
+            case 'E', 'Z' -> '\\';
+            default -> ' ';
+        };
     }
 
     // Renderiza el tablero en forma hexagonal con las letras

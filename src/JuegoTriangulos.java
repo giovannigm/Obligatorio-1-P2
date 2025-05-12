@@ -214,38 +214,37 @@ public class JuegoTriangulos {
         // 1].getNombre()
         // : jugadores[jugadorNegro - 1].getNombre();
         // System.out.println("\nTurno de: " + jugadorActual);
-        // System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para
-        // terminar:");
-        // String input = scanner.nextLine();
+        System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
+        String input = scanner.nextLine();
 
         // if (input.equalsIgnoreCase("salir")) {
         // continuar = false;
         // continue;
         // }
 
-        // try {
-        // Jugada jugada = JugadaParser.interpretar(input);
-        // System.out.println("Jugada interpretada: " + jugada);
+        try {
+            Jugada jugada = JugadaParser.interpretar(input);
+            System.out.println("Jugada interpretada: " + jugada);
 
-        // tablero.limpiarTriangulo(); // Limpiar cualquier triángulo anterior
-        // if (tablero.colocarBanda(jugada)) {
-        // // Detección de triángulo: verifica si la última jugada forma un triángulo
-        // if (detectarTrianguloSimple(tablero, jugada)) {
-        // // Marcar el triángulo en el tablero
-        // int fila = (jugada.getFila() - 1) * 2;
-        // int columna = (jugada.getColumna() - 'A') * 2;
-        // tablero.marcarTriangulo(fila, columna);
-        // System.out.println("¡Felicidades " + jugadorActual + "! Formaste un
-        // triángulo!");
-        // }
-        // System.out.println("\nTablero actualizado:");
-        // tablero.mostrarTablero();
-        // // Cambiar de turno
-        // turno = 1 - turno;
-        // }
-        // } catch (Exception e) {
-        // System.out.println("Error al interpretar la jugada: " + e.getMessage());
-        // }
+            if (tablero.colocarBanda(jugada.getFila(), jugada.getColumna(), jugada.getDireccion(),
+                    jugada.getCantidad())) {
+                // Detección de triángulo: verifica si la última jugada forma un triángulo
+                // if (detectarTrianguloSimple(tablero, jugada)) {
+                // // Marcar el triángulo en el tablero
+                // int fila = (jugada.getFila() - 1) * 2;
+                // int columna = (jugada.getColumna() - 'A') * 2;
+                // tablero.marcarTriangulo(fila, columna);
+                // // System.out.println("¡Felicidades " + jugadorActual + "! Formaste
+                // // untriángulo!");
+                // }
+                System.out.println("\nTablero actualizado:");
+                tablero.mostrarTablero();
+                // Cambiar de turno
+                // turno = 1 - turno;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al interpretar la jugada: " + e.getMessage());
+        }
         // }
         // } else {
         // System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
