@@ -17,7 +17,7 @@ public class Tablero {
             }
         }
 
-        // Definición de los puntos en filas impares
+        // Definición de los puntos en filas pares
         int inicio = 3;
         int fin = 10;
 
@@ -42,7 +42,12 @@ public class Tablero {
     }
 
     // Método para colocar una banda en el tablero
-    public boolean colocarBanda(int filaUsuario, int columna, char direccion, int cantidad) {
+    public boolean colocarBanda(Jugada jugada) {
+        int filaUsuario = jugada.getFila();
+        int columna = jugada.getColumna();
+        char direccion = jugada.getDireccion();
+        int cantidad = jugada.getCantidad();
+
         // Validar que la fila del usuario esté en el rango correcto (1-7), esta
         // validacion deberia hacerse en el parser
         if (filaUsuario < 1 || filaUsuario > 7) {
@@ -51,7 +56,7 @@ public class Tablero {
         }
 
         // Convertir la fila del usuario a nuestra representación interna
-        // Las filas impares en nuestra matriz (0,2,4,6,8,10,12) corresponden a las
+        // Las filas pares en nuestra matriz (0,2,4,6,8,10,12) corresponden a las
         // filas 1-7 del usuario
         int fila = (filaUsuario - 1) * 2;
 
@@ -63,13 +68,9 @@ public class Tablero {
 
         // Validar que la posición inicial sea un punto "*"
         if (tablero[fila][columna] != '*') {
-            System.out.println("Fila: " + fila + " Columna: " + columna + " FilaUsuario: " + filaUsuario
-                    + " Valor: " + tablero[fila][columna]);
             System.out.println("Debe comenzar desde un punto.");
             return false;
         }
-
-        System.out.println("Fila: " + fila + " Columna: " + columna);
 
         int deltaFila = 0;
         int deltaColumna = 0;
@@ -112,11 +113,9 @@ public class Tablero {
             filaValidacion += deltaFila;
             columnaValidacion += deltaColumna;
 
-            System.out.println("FilaValidacion: " + filaValidacion + " ColumnaValidacion: " + columnaValidacion);
+            boolean fueraDeLimites = filaValidacion < 0 || filaValidacion >= filas || columnaValidacion < 0;
 
-            if (filaValidacion < 0 || filaValidacion >= filas || columnaValidacion < 0
-                    || columnaValidacion >= columnas) { // TODO: si se sale del hexagono
-                // tambien es invalido
+            if (fueraDeLimites) {
                 System.out.println("La banda se sale del tablero.");
                 return false;
             }
@@ -124,8 +123,6 @@ public class Tablero {
             // Calcular la posición donde se colocará la banda (en el espacio entre puntos)
             int filaBanda = (fila + filaValidacion) / 2;
             int columnaBanda = (columna + columnaValidacion) / 2;
-
-            System.out.println("FilaBanda: " + filaBanda + " ColumnaBanda: " + columnaBanda);
 
             // Validar que la posición de la banda sea un espacio vacío
             if (tablero[filaBanda][columnaBanda] != ' ') {
@@ -142,20 +139,21 @@ public class Tablero {
             } else { // Si no es la última banda
                 int siguienteFila = (filaValidacion + (filaValidacion + deltaFila)) / 2;
                 int siguienteColumna = (columnaValidacion + (columnaValidacion + deltaColumna)) / 2;
-                if (siguienteFila < 0 || siguienteFila >= filas ||
-                        siguienteColumna < 0 || siguienteColumna >= columnas ||
-                        tablero[siguienteFila][siguienteColumna] != ' ') {
+
+                fueraDeLimites = siguienteFila < 0 || siguienteFila >= filas || siguienteColumna < 0;
+                if (fueraDeLimites || tablero[siguienteFila][siguienteColumna] != ' ') {
                     System.out.println("La banda debe conectarse con otro punto o banda válida.");
                     return false;
                 }
             }
 
-            // Colocar la banda en la posición intermedia
+            // Colocar la banda
             tablero[filaBanda][columnaBanda] = obtenerSimbolo(direccion);
 
             fila += deltaFila;
             columna += deltaColumna;
         }
+
         return true;
     }
 
@@ -169,7 +167,7 @@ public class Tablero {
         };
     }
 
-    // Renderiza el tablero en forma hexagonal con las letras
+    // Muestra el tablero con las letras de las columnas y los numeros de las filas
     public void mostrarTablero() {
         // Mostrar letras en la parte superior
         System.out.print("    ");
@@ -181,6 +179,7 @@ public class Tablero {
         // Mostrar el tablero
         for (int fila = 0; fila < filas; fila++) {
             if (fila % 2 == 0) {
+                // Imprime el numero con un cero a la izquierda para evitar saltos de linea
                 System.out.print(String.format("%02d", fila / 2 + 1) + "  ");
             } else {
                 System.out.print("--   ");

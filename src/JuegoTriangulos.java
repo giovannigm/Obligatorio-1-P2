@@ -226,8 +226,7 @@ public class JuegoTriangulos {
                 Jugada jugada = JugadaParser.interpretar(input);
                 System.out.println("Jugada interpretada: " + jugada);
 
-                if (tablero.colocarBanda(jugada.getFila(), jugada.getColumna(), jugada.getDireccion(),
-                        jugada.getCantidad())) {
+                if (tablero.colocarBanda(jugada)) {
                     // Detección de triángulo: verifica si la última jugada forma un triángulo
                     // if (detectarTrianguloSimple(tablero, jugada)) {
                     // // Marcar el triángulo en el tablero
