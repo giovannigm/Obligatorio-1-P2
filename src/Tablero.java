@@ -107,7 +107,7 @@ public class Tablero {
     // Renderiza el tablero en forma hexagonal con las letras
     public void mostrarTablero() {
         // Mostrar letras en la parte superior
-        System.out.print("    ");
+        System.out.print("   ");
         for (char c = 'A'; c <= 'M'; c++) {
             System.out.print(c + " ");
         }
