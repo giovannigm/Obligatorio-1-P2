@@ -207,50 +207,50 @@ public class JuegoTriangulos {
 
         // // Lógica de turnos
         // int turno = 0; // 0: blanco, 1: negro
-        // boolean continuar = true;
+        boolean continuar = true;
         // scanner.nextLine(); // Limpiar buffer
-        // while (continuar) {
-        // String jugadorActual = (turno == 0) ? jugadores[jugadorBlanco -
-        // 1].getNombre()
-        // : jugadores[jugadorNegro - 1].getNombre();
-        // System.out.println("\nTurno de: " + jugadorActual);
-        System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
-        String input = scanner.nextLine();
+        while (continuar) {
+            // String jugadorActual = (turno == 0) ? jugadores[jugadorBlanco -
+            // 1].getNombre()
+            // : jugadores[jugadorNegro - 1].getNombre();
+            // System.out.println("\nTurno de: " + jugadorActual);
+            System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
+            String input = scanner.nextLine();
 
-        // if (input.equalsIgnoreCase("salir")) {
-        // continuar = false;
-        // continue;
-        // }
-
-        try {
-            Jugada jugada = JugadaParser.interpretar(input);
-            System.out.println("Jugada interpretada: " + jugada);
-
-            if (tablero.colocarBanda(jugada.getFila(), jugada.getColumna(), jugada.getDireccion(),
-                    jugada.getCantidad())) {
-                // Detección de triángulo: verifica si la última jugada forma un triángulo
-                // if (detectarTrianguloSimple(tablero, jugada)) {
-                // // Marcar el triángulo en el tablero
-                // int fila = (jugada.getFila() - 1) * 2;
-                // int columna = (jugada.getColumna() - 'A') * 2;
-                // tablero.marcarTriangulo(fila, columna);
-                // // System.out.println("¡Felicidades " + jugadorActual + "! Formaste
-                // // untriángulo!");
-                // }
-                System.out.println("\nTablero actualizado:");
-                tablero.mostrarTablero();
-                // Cambiar de turno
-                // turno = 1 - turno;
+            if (input.equalsIgnoreCase("salir")) {
+                continuar = false;
+                continue;
             }
-        } catch (Exception e) {
-            System.out.println("Error al interpretar la jugada: " + e.getMessage());
+
+            try {
+                Jugada jugada = JugadaParser.interpretar(input);
+                System.out.println("Jugada interpretada: " + jugada);
+
+                if (tablero.colocarBanda(jugada.getFila(), jugada.getColumna(), jugada.getDireccion(),
+                        jugada.getCantidad())) {
+                    // Detección de triángulo: verifica si la última jugada forma un triángulo
+                    // if (detectarTrianguloSimple(tablero, jugada)) {
+                    // // Marcar el triángulo en el tablero
+                    // int fila = (jugada.getFila() - 1) * 2;
+                    // int columna = (jugada.getColumna() - 'A') * 2;
+                    // tablero.marcarTriangulo(fila, columna);
+                    // // System.out.println("¡Felicidades " + jugadorActual + "! Formaste
+                    // // untriángulo!");
+                    // }
+                    System.out.println("\nTablero actualizado:");
+                    tablero.mostrarTablero();
+                    // Cambiar de turno
+                    // turno = 1 - turno;
+                }
+            } catch (Exception e) {
+                System.out.println("Error al interpretar la jugada: " + e.getMessage());
+            }
+            // }
+            // } else {
+            // System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
+            // System.out.println("Por favor, registre al menos " + MIN_JUGADORES + "
+            // jugadores antes de jugar.");
         }
-        // }
-        // } else {
-        // System.out.println("\nNo hay suficientes jugadores registrados para jugar.");
-        // System.out.println("Por favor, registre al menos " + MIN_JUGADORES + "
-        // jugadores antes de jugar.");
-        // }
     }
 
     // Detección de triángulo: verifica si la última jugada forma un triángulo con

@@ -1,10 +1,10 @@
 public class Jugada {
-  private char columna;
+  private int columna;
   private int fila;
   private char direccion;
   private int cantidad;
 
-  public Jugada(char columna, int fila, char direccion, int cantidad) {
+  public Jugada(int columna, int fila, char direccion, int cantidad) {
     this.columna = columna;
     this.fila = fila;
     this.direccion = direccion;
@@ -12,7 +12,7 @@ public class Jugada {
   }
 
   // Getters y toString() para probar
-  public char getColumna() {
+  public int getColumna() {
     return columna;
   }
 
@@ -30,6 +30,7 @@ public class Jugada {
 
   @Override
   public String toString() {
-    return "Columna: " + columna + ", Fila: " + fila + ", Dirección: " + direccion + ", Cantidad: " + cantidad;
+    return "Columna: " + (char) ('A' + columna) + ", Fila: " + fila + ", Dirección: " + direccion + ", Cantidad: "
+        + cantidad;
   }
 }
