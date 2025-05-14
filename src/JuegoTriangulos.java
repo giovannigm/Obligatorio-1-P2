@@ -254,54 +254,6 @@ public class JuegoTriangulos {
         }
     }
 
-    // Detección de triángulo: verifica si la última jugada forma un triángulo con
-    // cualquier par de celdas adyacentes (ahora solo marca el centro en un espacio
-    // entre puntos)
-    // private static boolean detectarTrianguloSimple(Tablero tablero, Jugada
-    // jugada) {
-    // int fila = (jugada.getFila() - 1) * 2;
-    // int columna = (jugada.getColumna() - 'A') * 2;
-    // String[][] grid = tablero.getTablero();
-    // int maxFila = grid.length;
-    // int maxCol = grid[0].length;
-    // // Direcciones de adyacencia en hexágono (6 direcciones, saltando a los
-    // puntos
-    // // visibles)
-    // int[][] dirs = {
-    // { -2, -2 }, // arriba-izquierda
-    // { -2, 2 }, // arriba-derecha
-    // { 0, -4 }, // izquierda
-    // { 0, 4 }, // derecha
-    // { 2, -2 }, // abajo-izquierda
-    // { 2, 2 } // abajo-derecha
-    // };
-    // // Buscar todos los posibles centros de triángulo (espacios entre puntos)
-    // for (int d = 0; d < dirs.length; d++) {
-    // int f1 = fila + dirs[d][0];
-    // int c1 = columna + dirs[d][1];
-    // int f2 = fila + dirs[(d + 1) % dirs.length][0];
-    // int c2 = columna + dirs[(d + 1) % dirs.length][1];
-    // int centerFila = (fila + f1 + f2) / 3;
-    // int centerCol = (columna + c1 + c2) / 3;
-    // // El centro debe estar en un espacio (índices impares)
-    // if (centerFila >= 0 && centerFila < maxFila && centerCol >= 0 && centerCol <
-    // maxCol && centerFila % 2 == 1
-    // && centerCol % 2 == 1) {
-    // // Verificar que haya bandas en los tres lados
-    // if (!grid[(fila + f1) / 2][(columna + c1) / 2].equals("*")
-    // && !grid[(fila + f1) / 2][(columna + c1) / 2].equals(" ") &&
-    // !grid[(fila + f2) / 2][(columna + c2) / 2].equals("*")
-    // && !grid[(fila + f2) / 2][(columna + c2) / 2].equals(" ") &&
-    // !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals("*")
-    // && !grid[(f1 + f2) / 2][(c1 + c2) / 2].equals(" ")) {
-    // tablero.marcarTriangulo(centerFila, centerCol);
-    // return true;
-    // }
-    // }
-    // }
-    // return false;
-    // }
-
     public static void mostrarRanking() {
         if (jugadoresRegistrados >= MIN_JUGADORES) {
             System.out.println("Ranking de jugadores");
