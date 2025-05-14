@@ -294,7 +294,7 @@ public class Tablero {
     }
 
     private boolean esTrianguloAbajo(int fila, int columna) {
-        if ((fila - 1) >= filas) {
+        if ((fila - 1) >= filas || (fila + 1) >= filas) {
             return false;
         }
 
