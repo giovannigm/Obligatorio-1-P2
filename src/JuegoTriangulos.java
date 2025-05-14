@@ -243,6 +243,7 @@ public class JuegoTriangulos {
                     // turno = 1 - turno;
                 }
             } catch (Exception e) {
+                e.printStackTrace(System.out);
                 System.out.println("Error al interpretar la jugada: " + e.getMessage());
             }
             // }

@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Tablero {
     private final char[][] tablero;
@@ -44,35 +43,62 @@ public class Tablero {
         }
     }
 
-    // Método para colocar una banda en el tablero
-    public boolean colocarBanda(Jugada jugada) {
+    // Clase para representar una posición en el tablero
+    private static class Position {
+        private final int fila;
+        private final int columna;
+        private final char simbolo;
+
+        public Position(int fila, int columna, char simbolo) {
+            this.fila = fila;
+            this.columna = columna;
+            this.simbolo = simbolo;
+        }
+
+        public int getFila() {
+            return fila;
+        }
+
+        public int getColumna() {
+            return columna;
+        }
+
+        public char getSimbolo() {
+            return simbolo;
+        }
+    }
+
+    // Valida una jugada y retorna las posiciones donde se deben colocar las bandas
+    private ArrayList<Position> validarJugada(Jugada jugada) {
+        ArrayList<Position> posiciones = new ArrayList<>();
         int filaUsuario = jugada.getFila();
         int columna = jugada.getColumna();
         char direccion = jugada.getDireccion();
         int cantidad = jugada.getCantidad();
 
-        // Validar que la fila del usuario esté en el rango correcto (1-7), esta
-        // validacion deberia hacerse en el parser
+        // Validar que la fila del usuario esté en el rango correcto (1-7)
         if (filaUsuario < 1 || filaUsuario > 7) {
             System.out.println("La fila debe estar entre 1 y 7.");
-            return false;
+            return null;
         }
 
         // Convertir la fila del usuario a nuestra representación interna
-        // Las filas pares en nuestra matriz (0,2,4,6,8,10,12) corresponden a las
-        // filas 1-7 del usuario
         int fila = (filaUsuario - 1) * 2;
 
         // Validar que la columna esté en el rango correcto (A-M)
         if (columna < 0 || columna >= columnas) {
             System.out.println("La columna debe estar entre A y M.");
-            return false;
+            return null;
+        }
+
+        if (fila >= filas || fila < 0) {
+            return null;
         }
 
         // Validar que la posición inicial sea un punto "*"
         if (tablero[fila][columna] != '*') {
             System.out.println("Debe comenzar desde un punto.");
-            return false;
+            return null;
         }
 
         int deltaFila = 0;
@@ -103,24 +129,26 @@ public class Tablero {
                 break;
             default:
                 System.out.println("Dirección inválida.");
-                return false;
+                return null;
         }
 
         // Posiciones para validación
         int filaValidacion = fila;
         int columnaValidacion = columna;
+        char simbolo = obtenerSimbolo(direccion);
 
-        // Validación de límites y colocación
+        // Validación de límites y recolección de posiciones
         for (int i = 0; i < cantidad; i++) {
             // Actualizar posición de validación
             filaValidacion += deltaFila;
             columnaValidacion += deltaColumna;
 
-            boolean fueraDeLimites = filaValidacion < 0 || filaValidacion >= filas || columnaValidacion < 0;
+            boolean fueraDeLimites = filaValidacion < 0 || filaValidacion >= filas || columnaValidacion < 0
+                    || columnaValidacion >= columnas;
 
             if (fueraDeLimites) {
                 System.out.println("La banda se sale del tablero.");
-                return false;
+                return null;
             }
 
             // Calcular la posición donde se colocará la banda (en el espacio entre puntos)
@@ -130,31 +158,48 @@ public class Tablero {
             // Validar que la posición de la banda sea un espacio vacío
             if (tablero[filaBanda][columnaBanda] != ' ') {
                 System.out.println("No se puede colocar banda sobre otra banda o punto.");
-                return false;
+                return null;
             }
 
             // Validar que la siguiente posición sea un punto "*" o una banda válida
             if (i == cantidad - 1) { // Si es la última banda
                 if (tablero[filaValidacion][columnaValidacion] != '*') {
                     System.out.println("La banda debe terminar en un punto.");
-                    return false;
+                    return null;
                 }
             } else { // Si no es la última banda
                 int siguienteFila = (filaValidacion + (filaValidacion + deltaFila)) / 2;
                 int siguienteColumna = (columnaValidacion + (columnaValidacion + deltaColumna)) / 2;
 
-                fueraDeLimites = siguienteFila < 0 || siguienteFila >= filas || siguienteColumna < 0;
+                fueraDeLimites = siguienteFila < 0 || siguienteFila >= filas || siguienteColumna < 0
+                        || siguienteColumna >= columnas;
                 if (fueraDeLimites || tablero[siguienteFila][siguienteColumna] != ' ') {
                     System.out.println("La banda debe conectarse con otro punto o banda válida.");
-                    return false;
+                    return null;
                 }
             }
 
-            // Colocar la banda
-            tablero[filaBanda][columnaBanda] = obtenerSimbolo(direccion);
+            // Agregar la posición a la lista
+            posiciones.add(new Position(filaBanda, columnaBanda, simbolo));
 
             fila += deltaFila;
             columna += deltaColumna;
+        }
+
+        return posiciones;
+    }
+
+    // Método para colocar una banda en el tablero
+    public boolean colocarBanda(Jugada jugada) {
+        ArrayList<Position> posiciones = validarJugada(jugada);
+
+        if (posiciones == null || posiciones.isEmpty()) {
+            return false;
+        }
+
+        // Colocar todas las bandas
+        for (Position pos : posiciones) {
+            tablero[pos.getFila()][pos.getColumna()] = pos.getSimbolo();
         }
 
         return true;
@@ -214,8 +259,8 @@ public class Tablero {
     }
 
     // Método para detectar triángulos en el tablero
-    public List<Triangulo> detectarTriangulos() {
-        List<Triangulo> triangulos = new ArrayList<>();
+    public ArrayList<Triangulo> detectarTriangulos() {
+        ArrayList<Triangulo> triangulos = new ArrayList<>();
 
         // Recorrer solo las filas pares donde están las horizontales
         for (int fila = 0; fila < filas; fila += 2) {
