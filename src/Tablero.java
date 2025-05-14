@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tablero {
     private final char[][] tablero;
     private final int filas = 13;
@@ -189,5 +192,70 @@ public class Tablero {
             }
             System.out.println();
         }
+    }
+
+    // Clase interna para representar un triángulo
+    private static class Triangulo {
+        private final int filaPunto; // Fila del punto principal
+        private final int columnaPunto; // Columna del punto principal
+        private final boolean apuntaArriba; // true si apunta hacia arriba, false si apunta hacia abajo
+
+        public Triangulo(int filaPunto, int columnaPunto, boolean apuntaArriba) {
+            this.filaPunto = filaPunto;
+            this.columnaPunto = columnaPunto;
+            this.apuntaArriba = apuntaArriba;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Triángulo en (%d,%d) apuntando %s",
+                    filaPunto, columnaPunto, apuntaArriba ? "arriba" : "abajo");
+        }
+    }
+
+    // Método para detectar triángulos en el tablero
+    public List<Triangulo> detectarTriangulos() {
+        List<Triangulo> triangulos = new ArrayList<>();
+
+        // Recorrer solo las filas pares donde están las horizontales
+        for (int fila = 0; fila < filas; fila += 2) {
+            for (int columna = 0; columna < columnas; columna++) {
+                if (tablero[fila][columna] == '-') {
+                    if (esTrianguloArriba(fila, columna)) {
+                        triangulos.add(new Triangulo(fila, columna, true));
+                    }
+
+                    if (esTrianguloAbajo(fila, columna)) {
+                        triangulos.add(new Triangulo(fila, columna, false));
+                    }
+                }
+            }
+        }
+
+        System.out.println("Triangulos encontrados: " + triangulos.size());
+
+        return triangulos;
+    }
+
+    private boolean esTrianguloArriba(int fila, int columna) {
+        if ((fila - 1) <= 0) {
+            return false;
+        }
+
+        boolean bandaDiagonalIzquierda = tablero[fila - 1][columna - 1] == '/';
+        boolean bandaDiagonalDerecha = tablero[fila - 1][columna] == '\\';
+
+        return bandaDiagonalIzquierda && bandaDiagonalDerecha;
+    }
+
+    private boolean esTrianguloAbajo(int fila, int columna) {
+        if ((fila - 1) >= filas) {
+            return false;
+        }
+
+        boolean bandaDiagonalDerecha = tablero[fila + 1][columna] == '/';
+        boolean bandaDiagonalIzquierda = tablero[fila + 1][columna - 1] == '\\';
+
+        return bandaDiagonalDerecha && bandaDiagonalIzquierda;
     }
 }

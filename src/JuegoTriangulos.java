@@ -237,6 +237,7 @@ public class JuegoTriangulos {
                     // // untriángulo!");
                     // }
                     System.out.println("\nTablero actualizado:");
+                    tablero.detectarTriangulos();
                     tablero.mostrarTablero();
                     // Cambiar de turno
                     // turno = 1 - turno;
