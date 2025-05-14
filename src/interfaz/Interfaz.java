@@ -27,6 +27,7 @@ public class Interfaz {
                     registrarJugador();
                     break;
                 case 2:
+                    System.out.println("");
                     System.out.println("Opción 2 seleccionada: Configurar partida");
                     // Aquí puedes agregar la lógica para configurar la partida
                     break;
@@ -51,7 +52,7 @@ public class Interfaz {
         System.out.println("║              🌟 MENÚ PRINCIPAL 🌟          ║");
         System.out.println("╠════════════════════════════════════════════╣");
         System.out.println("║  1. 🧑 Registrar jugador                   ║");
-        System.out.println("║  2. ⚙️  Configurar partida                  ║");
+        System.out.println("║  2. ⚙️ Configurar partida                   ║");
         System.out.println("║  3. 🎮 Jugar partida                       ║");
         System.out.println("║  4. 🏆 Mostrar ranking                     ║");
         System.out.println("║  5. 🚪 Salir                               ║");
@@ -114,12 +115,14 @@ public class Interfaz {
             System.out.println("║    🚫 ¡No hay jugadores registrados! 🚫    ║");
             System.out.println("╚════════════════════════════════════════════╝");
         } else {
-            System.out.println("Lista de Jugadores:");
-            System.out.println("");
+            System.out.println("╔═════════════════════════════════════════════════╗");
+            System.out.println("║           🏆 RANKING DE JUGADORES               ║");
+            System.out.println("╠═════════════════════════════════════════════════╣");
+            // System.out.printf("║ %-25s ││ %-25s ║%n", "Nombre", "Partidas Ganadas");
             for (Jugador unJugador : sistema.getJugadores()) {
-                System.out.printf("║ %-20s │ 🏆 %3d partidas ganadas ║%n", unJugador.getNombre(),
+                System.out.printf("║      %-15s ││   Partidas Ganadas: %-2s  ║%n", unJugador.getNombre(),
                         unJugador.getPartidasGanadas());
-                System.out.println("║                                                ║");
+                System.out.println("╠" + "═".repeat(49) + "╣");
             }
         }
     }
