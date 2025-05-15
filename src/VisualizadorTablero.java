@@ -13,21 +13,20 @@ public class VisualizadorTablero {
     // Mostrar letras en la parte superior (A-M)
     System.out.print("    ");
     for (char c = 'A'; c <= 'M'; c++) {
-      System.out.print(c + "   "); // Añadido espacio extra para el nuevo tamaño
+      System.out.print(c + " "); // Añadido espacio extra para el nuevo tamaño
     }
     System.out.println();
 
     // Mostrar el tablero
     for (int fila = 0; fila < filas; fila++) {
-      System.out.println();
       if (fila % 2 == 0) {
         // Imprime el numero con un cero a la izquierda para evitar saltos de linea
         System.out.print(String.format("%02d", fila / 2 + 1) + "  ");
       } else {
-        System.out.print("--   ");
+        System.out.print("--  ");
       }
       for (int columna = 0; columna < columnas; columna++) {
-        System.out.print(tablero[fila][columna] + " ");
+        System.out.print(tablero[fila][columna]);
       }
       System.out.println();
     }
