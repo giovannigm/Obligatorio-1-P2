@@ -9,6 +9,8 @@ public class Posicion {
     this.fila = fila;
     this.columna = columna;
     this.simbolo = simbolo;
+
+    System.out.println(toString());
   }
 
   public int getFila() {

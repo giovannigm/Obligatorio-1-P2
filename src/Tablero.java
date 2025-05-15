@@ -5,13 +5,15 @@ import models.Triangulo;
 public class Tablero {
     private final char[][] tablero;
     private final int filas = 13;
-    private final int columnas = 13;
+    private final int columnas = 26; // Duplicado de 13
     private final ValidadorBanda validadorBanda;
     private final DetectorTriangulo detectorTriangulo;
     private final VisualizadorTablero visualizadorTablero;
+    private ArrayList<Triangulo> triangulosActivos;
 
     public Tablero() {
         this.tablero = new char[filas][columnas];
+        this.triangulosActivos = new ArrayList<>();
         inicializarTablero();
         this.validadorBanda = new ValidadorBanda(tablero, filas, columnas);
         this.detectorTriangulo = new DetectorTriangulo(tablero, filas, columnas);
@@ -28,24 +30,24 @@ public class Tablero {
         }
 
         // Definición de los puntos en filas pares
-        int inicio = 3;
-        int fin = 10;
+        int inicio = 6; // Duplicado de 3
+        int fin = 20; // Duplicado de 10
 
         for (int fila = 0; fila < filas; fila++) {
             if (fila % 2 == 0) {
-                for (int columna = inicio; columna <= fin && columna < columnas; columna += 2) {
+                for (int columna = inicio; columna <= fin && columna < columnas; columna += 4) {
                     tablero[fila][columna] = '*';
                 }
 
                 if (inicio > 0 && fila < (filas / 2)) {
-                    inicio--;
+                    inicio -= 2;
                 } else {
-                    inicio++;
+                    inicio += 2;
                 }
                 if (fin < columnas && fila < (filas / 2)) {
-                    fin++;
+                    fin += 2;
                 } else {
-                    fin--;
+                    fin -= 2;
                 }
             }
         }
@@ -69,7 +71,42 @@ public class Tablero {
 
     // Método para detectar triángulos en el tablero
     public ArrayList<Triangulo> detectarTriangulos() {
-        return detectorTriangulo.detectarTriangulos();
+        ArrayList<Triangulo> nuevosTriangulos = detectorTriangulo.detectarTriangulos();
+
+        // Marcar los nuevos triángulos con el color del jugador actual
+        for (Triangulo triangulo : nuevosTriangulos) {
+            // Verificar si el triángulo ya existe
+            boolean esNuevo = true;
+            for (Triangulo existente : triangulosActivos) {
+                if (existente.getFilaPunto() == triangulo.getFilaPunto() &&
+                        existente.getColumnaPunto() == triangulo.getColumnaPunto() &&
+                        existente.isApuntaArriba() == triangulo.isApuntaArriba()) {
+                    esNuevo = false;
+                    break;
+                }
+            }
+
+            if (esNuevo) {
+                triangulosActivos.add(triangulo);
+            }
+        }
+
+        return nuevosTriangulos;
+    }
+
+    // Método para marcar un triángulo con el color del jugador
+    public void marcarTriangulo(Triangulo triangulo, char color) {
+        triangulo.setColor(color);
+        // Actualizar el tablero con el color en el centro del triángulo
+        // El centro está en la posición intermedia entre los puntos
+        int filaCentro = triangulo.getFilaCentro();
+        int columnaCentro = triangulo.getColumnaCentro();
+        tablero[filaCentro][columnaCentro] = color;
+    }
+
+    // Método para obtener los triángulos activos
+    public ArrayList<Triangulo> getTriangulosActivos() {
+        return triangulosActivos;
     }
 
     // Muestra el tablero con las letras de las columnas y los numeros de las filas

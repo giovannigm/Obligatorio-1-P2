@@ -16,7 +16,7 @@ public class DetectorTriangulo {
     ArrayList<Triangulo> triangulos = new ArrayList<>();
 
     // Recorrer solo las filas pares donde están las horizontales
-    for (int fila = 0; fila < filas; fila += 2) {
+    for (int fila = 0; fila < filas; fila++) {
       for (int columna = 0; columna < columnas; columna++) {
         if (tablero[fila][columna] == '-') {
           if (esTrianguloArriba(fila, columna)) {
@@ -40,7 +40,7 @@ public class DetectorTriangulo {
     }
 
     boolean bandaDiagonalIzquierda = tablero[fila - 1][columna - 1] == '/';
-    boolean bandaDiagonalDerecha = tablero[fila - 1][columna] == '\\';
+    boolean bandaDiagonalDerecha = tablero[fila - 1][columna + 1] == '\\';
 
     return bandaDiagonalIzquierda && bandaDiagonalDerecha;
   }
@@ -50,7 +50,7 @@ public class DetectorTriangulo {
       return false;
     }
 
-    boolean bandaDiagonalDerecha = tablero[fila + 1][columna] == '/';
+    boolean bandaDiagonalDerecha = tablero[fila + 1][columna + 1] == '/';
     boolean bandaDiagonalIzquierda = tablero[fila + 1][columna - 1] == '\\';
 
     return bandaDiagonalDerecha && bandaDiagonalIzquierda;

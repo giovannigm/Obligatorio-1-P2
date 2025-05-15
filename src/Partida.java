@@ -64,7 +64,13 @@ public class Partida {
         if (!triangulos.isEmpty()) {
           System.out.println("¡Felicidades " + jugadorActual.getNombre() + "! Formaste " +
               triangulos.size() + " triángulo(s)!");
-          // Aquí podrías actualizar el puntaje del jugador
+
+          // Marcar los triángulos con el color del jugador actual
+          char color = (jugadorActual == jugadorBlanco) ? '□' : '■';
+          for (Triangulo triangulo : triangulos) {
+            tablero.marcarTriangulo(triangulo, color);
+            jugadorActual.incrementarPuntaje(1); // Incrementar puntaje por cada triángulo
+          }
         }
 
         System.out.println("\nTablero actualizado:");

@@ -4,11 +4,13 @@ import clase.Jugador;
 
 public class JuegoTriangulos {
     private static final int MAX_JUGADORES = 10;
-    private static final int MIN_JUGADORES = 2;
     private static ArrayList<Jugador> jugadores = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        jugadores.add(new Jugador("Jugador Blanco", 20));
+        jugadores.add(new Jugador("Jugador Negro", 20));
+
         boolean salir = false;
         while (!salir) {
             mostrarMenu();

@@ -33,10 +33,12 @@ public class ValidadorBanda {
     }
 
     // Validar que la columna esté en el rango correcto (A-M)
-    if (columna < 0 || columna >= columnas) {
+    if (columna < 0 || columna >= columnas / 2) { // Ajustado para el nuevo tamaño
       System.out.println("La columna debe estar entre A y M.");
       return null;
     }
+
+    columna = columna * 2; // Duplicar la columna
 
     // Validar que la posición inicial sea un punto "*"
     if (tablero[fila][columna] != '*') {
@@ -49,26 +51,26 @@ public class ValidadorBanda {
 
     switch (direccion) {
       case 'D':
-        deltaColumna = -2;
+        deltaColumna = -4;
         break;
       case 'A':
-        deltaColumna = 2;
+        deltaColumna = 4;
         break;
       case 'E':
         deltaFila = 2;
-        deltaColumna = -1;
+        deltaColumna = -2;
         break;
       case 'Q':
         deltaFila = 2;
-        deltaColumna = 1;
+        deltaColumna = 2;
         break;
       case 'C':
         deltaFila = -2;
-        deltaColumna = -1;
+        deltaColumna = -2;
         break;
       case 'Z':
         deltaFila = -2;
-        deltaColumna = 1;
+        deltaColumna = 2;
         break;
       default:
         System.out.println("Dirección inválida.");
