@@ -71,11 +71,11 @@ public class Tablero {
 
     // Método para detectar triángulos en el tablero
     public ArrayList<Triangulo> detectarTriangulos() {
-        ArrayList<Triangulo> nuevosTriangulos = detectorTriangulo.detectarTriangulos();
+        ArrayList<Triangulo> todosLosTriangulos = detectorTriangulo.detectarTriangulos();
+        ArrayList<Triangulo> triangulosNuevos = new ArrayList<>();
 
-        // Marcar los nuevos triángulos con el color del jugador actual
-        for (Triangulo triangulo : nuevosTriangulos) {
-            // Verificar si el triángulo ya existe
+        // Filtrar solo los triángulos nuevos
+        for (Triangulo triangulo : todosLosTriangulos) {
             boolean esNuevo = true;
             for (Triangulo existente : triangulosActivos) {
                 if (existente.getFilaPunto() == triangulo.getFilaPunto() &&
@@ -88,10 +88,11 @@ public class Tablero {
 
             if (esNuevo) {
                 triangulosActivos.add(triangulo);
+                triangulosNuevos.add(triangulo);
             }
         }
 
-        return nuevosTriangulos;
+        return triangulosNuevos;
     }
 
     // Método para marcar un triángulo con el color del jugador
