@@ -2,6 +2,8 @@
 package dominio;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 public class Sistema {
     private ArrayList<Jugador> misJugadores;
@@ -16,8 +18,8 @@ public class Sistema {
         misJugadores.add(unJugador);
     }
 
-    public ArrayList<Jugador> getJugadores() {
-        return misJugadores;
+    public List<Jugador> getJugadores() {
+        return Collections.unmodifiableList(misJugadores);
     }
 
     public boolean validarNombre(String nombre) {
