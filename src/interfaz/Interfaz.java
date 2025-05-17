@@ -117,11 +117,17 @@ public class Interfaz {
             System.out.println("║           🏆 RANKING DE JUGADORES               ║");
             System.out.println("╠═════════════════════════════════════════════════╣");
             // System.out.printf("║ %-25s ││ %-25s ║%n", "Nombre", "Partidas Ganadas");
+            int totalJugadores = sistema.getJugadores().size();
+            int contador = 0;
             for (Jugador unJugador : sistema.getJugadores()) {
+                contador++;
                 System.out.printf("║      %-15s ││   Partidas Ganadas: %-2d  ║%n", unJugador.getNombre(),
                         unJugador.getPartidasGanadas());
-                System.out.println("╠" + "═".repeat(49) + "╣");
+                if (contador < totalJugadores) {
+                    System.out.println("╠" + "═".repeat(49) + "╣");
+                }
             }
+            System.out.println("╚" + "═".repeat(49) + "╝");
         }
     }
 
