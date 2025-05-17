@@ -17,7 +17,7 @@ public class Tablero {
         inicializarTablero();
         this.validadorBanda = new ValidadorBanda(tablero, filas, columnas);
         this.detectorTriangulo = new DetectorTriangulo(tablero, filas, columnas);
-        this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas);
+        this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas, triangulosActivos);
     }
 
     // Inicializa el tablero en forma de hexágono

@@ -1,17 +1,38 @@
 package dominio;
 
+import java.util.ArrayList;
+
 public class VisualizadorTablero {
   private final char[][] tablero;
   private final int filas;
   private final int columnas;
+  private final ArrayList<Triangulo> triangulosActivos;
 
-  public VisualizadorTablero(char[][] tablero, int filas, int columnas) {
+  public VisualizadorTablero(char[][] tablero, int filas, int columnas, ArrayList<Triangulo> triangulosActivos) {
     this.tablero = tablero;
     this.filas = filas;
     this.columnas = columnas;
+    this.triangulosActivos = triangulosActivos;
   }
 
   public void mostrarTablero() {
+    // Contar triángulos por color
+    int triangulosBlancos = 0;
+    int triangulosNegros = 0;
+    for (Triangulo triangulo : triangulosActivos) {
+      if (triangulo.getColor() == '□') {
+        triangulosBlancos++;
+      } else if (triangulo.getColor() == '■') {
+        triangulosNegros++;
+      }
+    }
+
+    // Mostrar contador de triángulos
+    System.out.println("\nTriángulos formados:");
+    System.out.println("Blancos (□): " + triangulosBlancos);
+    System.out.println("Negros (■): " + triangulosNegros);
+    System.out.println();
+
     // Mostrar letras en la parte superior (A-M)
     System.out.print("    ");
     for (char c = 'A'; c <= 'M'; c++) {
