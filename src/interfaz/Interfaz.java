@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import dominio.Jugador;
 import dominio.Sistema;
+import dominio.Partida;
 
 public class Interfaz {
     private Sistema sistema;
@@ -13,6 +14,9 @@ public class Interfaz {
     public Interfaz(Sistema unSistema) {
         this.sistema = unSistema;
         this.input = new Scanner(System.in);
+
+        this.sistema.agregarJugador(new Jugador("Nicolas", 20));
+        this.sistema.agregarJugador(new Jugador("Giovanni", 20));
     }
 
     public void menu() {
@@ -141,10 +145,11 @@ public class Interfaz {
         }
         System.out.println("Empezando partida...");
 
-        // Note for NICO: here you should call 'Sistema' to play the game, remember that
-        // in the Interfaz only goes the 'System.out.println' so to say.
-
-        // Write it in english because I want to and I can .
-        // (NAAA mentira es para practicar)
+        try {
+            Partida partida = Partida.crearPartida(sistema.getJugadores(), input);
+            partida.iniciar();
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
