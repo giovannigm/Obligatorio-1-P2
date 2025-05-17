@@ -1,4 +1,6 @@
-package clase;
+// Trabajo desarrollado por: Nicolas(258264) y Giovanni(288127)
+package dominio;
+
 public class Jugador {
     private String nombre;
     private int edad;
@@ -45,4 +47,5 @@ public class Jugador {
     public void setRachaActual(int rachaActual) {
         this.rachaActual = rachaActual;
     }
+
 }

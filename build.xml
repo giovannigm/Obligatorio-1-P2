@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="JuegoTriangulos" default="run" basedir=".">
+<project name="Inicio" default="run" basedir=".">
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
@@ -14,6 +14,6 @@
     </target>
 
     <target name="run" depends="compile">
-        <java classname="JuegoTriangulos" classpath="${classes.dir}"/>
+        <java classname="Inicio" classpath="${classes.dir}"/>
     </target>
 </project> 
