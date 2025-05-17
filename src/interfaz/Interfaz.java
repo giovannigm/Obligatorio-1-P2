@@ -93,7 +93,7 @@ public class Interfaz {
         return input.nextLine().trim();
     }
 
-    public String registrarJugador() {
+    public void registrarJugador() {
         String nombre = ingresarTexto("👤 Ingrese el nombre del Jugador:");
 
         do {
@@ -105,8 +105,6 @@ public class Interfaz {
         int edad = ingresarNumero("🎂 Ingrese la edad del Jugador:", 1, 100);
         Jugador nuevoJugador = new Jugador(nombre, edad);
         this.sistema.agregarJugador(nuevoJugador);
-
-        return nombre;
     }
 
     public void mostrarRanking() {

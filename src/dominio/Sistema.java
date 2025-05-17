@@ -20,7 +20,7 @@ public class Sistema {
         return misJugadores;
     }
 
-    public Boolean validarNombre(String nombre) {
+    public boolean validarNombre(String nombre) {
         // Devuelve true si el nombre NO existe en la lista de jugadores
         for (Jugador jugador : misJugadores) {
             if (jugador.getNombre().equalsIgnoreCase(nombre)) {
