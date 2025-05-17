@@ -1,6 +1,6 @@
+package dominio;
+
 import java.util.ArrayList;
-import models.Posicion;
-import models.Triangulo;
 
 public class Tablero {
     private final char[][] tablero;

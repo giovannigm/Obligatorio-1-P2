@@ -1,7 +1,7 @@
+package dominio;
+
 import java.util.Scanner;
 import java.util.ArrayList;
-import clase.Jugador;
-import models.Triangulo;
 
 public class Partida {
   private final Tablero tablero;

@@ -1,3 +1,5 @@
+package dominio;
+
 public class VisualizadorTablero {
   private final char[][] tablero;
   private final int filas;

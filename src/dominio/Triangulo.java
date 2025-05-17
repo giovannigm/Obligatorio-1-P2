@@ -1,4 +1,4 @@
-package models;
+package dominio;
 
 public class Triangulo {
   private final int filaPunto; // Fila del punto principal

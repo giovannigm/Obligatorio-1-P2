@@ -1,4 +1,4 @@
-package models;
+package dominio;
 
 public class Posicion {
   private final int fila;
@@ -9,8 +9,6 @@ public class Posicion {
     this.fila = fila;
     this.columna = columna;
     this.simbolo = simbolo;
-
-    System.out.println(toString());
   }
 
   public int getFila() {

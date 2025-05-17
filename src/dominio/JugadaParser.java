@@ -1,3 +1,5 @@
+package dominio;
+
 public class JugadaParser {
   public static Jugada interpretar(String input) {
     input = input.trim().toUpperCase(); // Limpieza y mayúsculas

@@ -1,4 +1,5 @@
-import models.Posicion;
+package dominio;
+
 import java.util.ArrayList;
 
 public class ValidadorBanda {

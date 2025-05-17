@@ -1,3 +1,5 @@
+package dominio;
+
 public class Jugada {
   private int columna;
   private int fila;
