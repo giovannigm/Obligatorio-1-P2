@@ -48,7 +48,4 @@ public class Jugador {
         this.rachaActual = rachaActual;
     }
 
-    public boolean validarNombre(String nombre) {
-        return this.nombre != null && this.nombre.equals(nombre);
-    }
 }

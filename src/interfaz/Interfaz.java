@@ -99,7 +99,7 @@ public class Interfaz {
         do {
             if (!sistema.validarNombre(nombre)) {
                 System.out.println("⚠️  El nombre ya existe. Por favor, ingrese un nombre diferente para el jugador.");
-                nombre = ingresarTexto("Ingrese el nombre del Jugador:");
+                nombre = ingresarTexto("👤 Ingrese el nombre del Jugador:");
             }
         } while (!sistema.validarNombre(nombre));
         int edad = ingresarNumero("🎂 Ingrese la edad del Jugador:", 1, 100);
@@ -120,7 +120,7 @@ public class Interfaz {
             System.out.println("╠═════════════════════════════════════════════════╣");
             // System.out.printf("║ %-25s ││ %-25s ║%n", "Nombre", "Partidas Ganadas");
             for (Jugador unJugador : sistema.getJugadores()) {
-                System.out.printf("║      %-15s ││   Partidas Ganadas: %-2s  ║%n", unJugador.getNombre(),
+                System.out.printf("║      %-15s ││   Partidas Ganadas: %-2d  ║%n", unJugador.getNombre(),
                         unJugador.getPartidasGanadas());
                 System.out.println("╠" + "═".repeat(49) + "╣");
             }
