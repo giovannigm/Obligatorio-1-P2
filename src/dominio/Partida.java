@@ -11,6 +11,7 @@ public class Partida {
   private boolean partidaTerminada;
   private final Scanner scanner;
   private static final int MIN_JUGADORES = 2;
+  private ArrayList<String> historialJugadas;
 
   public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner) {
     this.tablero = new Tablero();
@@ -19,6 +20,7 @@ public class Partida {
     this.jugadorActual = jugadorBlanco; // El blanco siempre comienza
     this.partidaTerminada = false;
     this.scanner = scanner;
+    this.historialJugadas = new ArrayList<>();
   }
 
   public void iniciar() {
@@ -48,18 +50,25 @@ public class Partida {
 
   private void ejecutarTurno() {
     System.out.println("\nTurno de: " + jugadorActual.getNombre());
-    System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3) o 'salir' para terminar:");
+    System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3), 'H' para ver historial, o 'X' para terminar:");
 
     String input = scanner.nextLine();
-    if (input.equalsIgnoreCase("salir")) {
+    if (input.equalsIgnoreCase("X")) {
       partidaTerminada = true;
       return;
+    }
+
+    if (input.equalsIgnoreCase("H")) {
+      mostrarHistorial();
     }
 
     try {
       Jugada jugada = JugadaParser.interpretar(input);
 
       if (tablero.colocarBanda(jugada)) {
+        String jugadaHistorial = String.format("%s: %s", jugadorActual.getNombre(), jugada.toString());
+        historialJugadas.add(jugadaHistorial);
+
         ArrayList<Triangulo> triangulos = tablero.detectarTriangulos();
         if (!triangulos.isEmpty()) {
           System.out.println("¡Felicidades " + jugadorActual.getNombre() + "! Formaste " +
@@ -80,6 +89,19 @@ public class Partida {
     } catch (Exception e) {
       System.out.println("Error al interpretar la jugada: " + e.getMessage());
     }
+  }
+
+  private void mostrarHistorial() {
+    if (historialJugadas.isEmpty()) {
+      System.out.println("\nNo hay jugadas registradas en el historial.");
+      return;
+    }
+
+    System.out.println("\n=== Historial de Jugadas ===");
+    for (int i = 0; i < historialJugadas.size(); i++) {
+      System.out.printf("%d. %s%n", i + 1, historialJugadas.get(i));
+    }
+    System.out.println("===========================");
   }
 
   private void cambiarTurno() {

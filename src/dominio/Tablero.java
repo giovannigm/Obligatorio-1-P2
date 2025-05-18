@@ -30,8 +30,8 @@ public class Tablero {
         }
 
         // Definición de los puntos en filas pares
-        int inicio = 6; // Duplicado de 3
-        int fin = 20; // Duplicado de 10
+        int inicio = 6;
+        int fin = 20;
 
         for (int fila = 0; fila < filas; fila++) {
             if (fila % 2 == 0) {
