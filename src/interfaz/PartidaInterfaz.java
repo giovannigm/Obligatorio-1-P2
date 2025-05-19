@@ -120,8 +120,15 @@ public class PartidaInterfaz {
     if (ganador != null) {
       System.out.println("¡" + ganador.getNombre() + " es el ganador!");
       ganador.setPartidasGanadas(ganador.getPartidasGanadas() + 1);
+      ganador.setRachaActual(ganador.getRachaActual() + 1);
+
+      Jugador perdedor = (ganador == partida.getJugadorBlanco()) ? partida.getJugadorNegro()
+          : partida.getJugadorBlanco();
+      perdedor.setRachaActual(0);
     } else {
       System.out.println("¡Empate! Ambos jugadores formaron la misma cantidad de triángulos.");
+      partida.getJugadorBlanco().setRachaActual(0);
+      partida.getJugadorNegro().setRachaActual(0);
     }
   }
 
