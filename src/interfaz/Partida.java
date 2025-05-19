@@ -80,7 +80,7 @@ public class Partida {
       return;
     }
 
-    System.out.println("\nTurno de: " + jugadorActual.getNombre());
+    System.out.println("\nTurno de jugador: " + ((jugadorActual == jugadorBlanco) ? "blanco" : "negro"));
     System.out.println("Jugadas restantes: " + (MAX_JUGADAS - jugadasRealizadas));
     System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3), 'H' para ver historial, o 'X' para terminar:");
 

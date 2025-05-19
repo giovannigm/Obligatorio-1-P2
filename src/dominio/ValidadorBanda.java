@@ -1,9 +1,6 @@
-package interfaz;
+package dominio;
 
 import java.util.ArrayList;
-
-import dominio.Jugada;
-import dominio.Posicion;
 
 public class ValidadorBanda {
   private final char[][] tablero;
@@ -27,8 +24,7 @@ public class ValidadorBanda {
 
     // Validar que la fila del usuario esté en el rango correcto (1-7)
     if (filaUsuario < 1 || filaUsuario > 7) {
-      System.out.println("La fila debe estar entre 1 y 7.");
-      return null;
+      throw new IllegalArgumentException("La fila debe estar entre 1 y 7.");
     }
 
     // Convertir la fila del usuario a nuestra representación interna
@@ -40,16 +36,14 @@ public class ValidadorBanda {
 
     // Validar que la columna esté en el rango correcto (A-M)
     if (columna < 0 || columna >= columnas / 2) { // Ajustado para el nuevo tamaño
-      System.out.println("La columna debe estar entre A y M.");
-      return null;
+      throw new IllegalArgumentException("La columna debe estar entre A y M.");
     }
 
     columna = columna * 2; // Duplicar la columna
 
     // Validar que la posición inicial sea un punto "*"
     if (tablero[fila][columna] != '*') {
-      System.out.println("Debe comenzar desde un punto.");
-      return null;
+      throw new IllegalArgumentException("Debe comenzar desde un punto.");
     }
 
     int deltaFila = 0;
@@ -79,8 +73,7 @@ public class ValidadorBanda {
         deltaColumna = 2;
         break;
       default:
-        System.out.println("Dirección inválida.");
-        return null;
+        throw new IllegalArgumentException("Dirección inválida.");
     }
 
     // Posiciones para validación
@@ -98,8 +91,7 @@ public class ValidadorBanda {
           columnaValidacion < 0 || columnaValidacion >= columnas;
 
       if (fueraDeLimites) {
-        System.out.println("La banda se sale del tablero.");
-        return null;
+        throw new IllegalArgumentException("La banda se sale del tablero.");
       }
 
       // Calcular la posición donde se colocará la banda (en el espacio entre puntos)
@@ -108,15 +100,13 @@ public class ValidadorBanda {
 
       // Validar que la posición de la banda sea un espacio vacío o permitir
       if (!permitirSuperposicionBandas && tablero[filaBanda][columnaBanda] != ' ') {
-        System.out.println("No se puede colocar banda sobre otra banda o punto.");
-        return null;
+        throw new IllegalArgumentException("No se puede colocar banda sobre otra banda o punto.");
       }
 
       // Validar que la siguiente posición sea un punto "*" o una banda válida
       if (i == cantidad - 1) { // Si es la última banda
         if (tablero[filaValidacion][columnaValidacion] != '*') {
-          System.out.println("La banda debe terminar en un punto.");
-          return null;
+          throw new IllegalArgumentException("La banda debe terminar en un punto.");
         }
       } else { // Si no es la última banda
         int siguienteFila = (filaValidacion + (filaValidacion + deltaFila)) / 2;
@@ -125,8 +115,7 @@ public class ValidadorBanda {
         fueraDeLimites = siguienteFila < 0 || siguienteFila >= filas ||
             siguienteColumna < 0 || siguienteColumna >= columnas;
         if (fueraDeLimites || (!permitirSuperposicionBandas && tablero[siguienteFila][siguienteColumna] != ' ')) {
-          System.out.println("La banda debe conectarse con otro punto o banda válida.");
-          return null;
+          throw new IllegalArgumentException("La banda debe conectarse con otro punto o banda válida.");
         }
       }
 

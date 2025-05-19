@@ -2,7 +2,6 @@ package dominio;
 
 import java.util.ArrayList;
 
-import interfaz.ValidadorBanda;
 import interfaz.VisualizadorTablero;
 
 public class Tablero {
