@@ -140,7 +140,7 @@ public class Interfaz {
         System.out.println("Empezando partida...");
 
         try {
-            Partida partida = Partida.crearPartida(sistema.getJugadores(), input,
+            PartidaInterfaz partida = PartidaInterfaz.crearPartida(sistema.getJugadores(), input,
                     sistema.getCantidadTablerosAMostrar(),
                     sistema.isPermitirSuperposicionBandas(),
                     sistema.getMaxJugadas(),
