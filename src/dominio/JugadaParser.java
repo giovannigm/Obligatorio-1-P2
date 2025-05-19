@@ -12,6 +12,9 @@ public class JugadaParser {
 
     if (input.length() > 3) {
       cantidad = Character.getNumericValue(input.charAt(3));
+      if (cantidad > 4) {
+        throw new IllegalArgumentException("La longitud de la banda no puede ser mayor a 4");
+      }
     }
 
     return new Jugada(columna, fila, direccion, cantidad);

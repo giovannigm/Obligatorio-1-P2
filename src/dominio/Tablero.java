@@ -17,7 +17,7 @@ public class Tablero {
         inicializarTablero();
         this.validadorBanda = new ValidadorBanda(tablero, filas, columnas);
         this.detectorTriangulo = new DetectorTriangulo(tablero, filas, columnas);
-        this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas);
+        this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas, triangulosActivos);
     }
 
     // Inicializa el tablero en forma de hexágono
@@ -30,8 +30,8 @@ public class Tablero {
         }
 
         // Definición de los puntos en filas pares
-        int inicio = 6; // Duplicado de 3
-        int fin = 20; // Duplicado de 10
+        int inicio = 6;
+        int fin = 20;
 
         for (int fila = 0; fila < filas; fila++) {
             if (fila % 2 == 0) {
