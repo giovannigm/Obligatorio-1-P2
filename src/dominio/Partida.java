@@ -102,6 +102,11 @@ public class Partida {
           }
         }
 
+        System.out.println("Historial de tableros Partida: " + tablero.getHistorialTableros().size());
+        // Guardar el estado del tablero después de cada jugada válida
+        tablero.getVisualizadorTablero().setHistorialTableros(tablero.getHistorialTableros());
+        tablero.guardarEstadoTablero();
+
         System.out.println("\nTablero actualizado:");
         tablero.mostrarTablero();
 
