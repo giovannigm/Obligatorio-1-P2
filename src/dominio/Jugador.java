@@ -7,7 +7,6 @@ public class Jugador {
     private int partidasGanadas;
     private int rachaActual;
 
-    // Constructor
     public Jugador(String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
@@ -17,7 +16,7 @@ public class Jugador {
 
     // Constructor simplificado para mantener compatibilidad
     public Jugador(String nombre) {
-        this(nombre, 0); // Edad por defecto 0 si no se especifica
+        this(nombre, 1);
     }
 
     // Getters y Setters

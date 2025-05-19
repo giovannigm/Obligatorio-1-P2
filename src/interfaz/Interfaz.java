@@ -118,7 +118,6 @@ public class Interfaz {
             System.out.println("╔═════════════════════════════════════════════════╗");
             System.out.println("║           🏆 RANKING DE JUGADORES               ║");
             System.out.println("╠═════════════════════════════════════════════════╣");
-            // System.out.printf("║ %-25s ││ %-25s ║%n", "Nombre", "Partidas Ganadas");
             int totalJugadores = sistema.getJugadores().size();
             int contador = 0;
             for (Jugador unJugador : sistema.getJugadores()) {
