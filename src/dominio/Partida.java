@@ -16,9 +16,10 @@ public class Partida {
   private int puntajeBlanco;
   private int puntajeNegro;
   private ArrayList<String> historialJugadas;
+  private boolean bandaLargaFija;
 
   public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner, int cantidadTablerosAMostrar,
-      boolean permitirSuperposicionBandas, int maxJugadas) {
+      boolean permitirSuperposicionBandas, int maxJugadas, boolean bandaLargaFija) {
     this.tablero = new Tablero(cantidadTablerosAMostrar, permitirSuperposicionBandas);
     this.jugadorBlanco = jugadorBlanco;
     this.jugadorNegro = jugadorNegro;
@@ -30,6 +31,7 @@ public class Partida {
     this.puntajeBlanco = 0;
     this.puntajeNegro = 0;
     this.historialJugadas = new ArrayList<>();
+    this.bandaLargaFija = bandaLargaFija;
   }
 
   public void iniciar() {
@@ -43,8 +45,10 @@ public class Partida {
 
   private void mostrarInstrucciones() {
     System.out.println("\nInstrucciones para colocar bandas:");
-    System.out.println("1. El formato es: [Letra][Número][Dirección]");
-    System.out.println("   Ejemplo: A1Q (coloca una banda en A1 en dirección Q)");
+    System.out.println("1. El formato es: [Letra][Número][Dirección]" +
+        (bandaLargaFija ? "" : "[Longitud]"));
+    System.out.println("   Ejemplo: " + (bandaLargaFija ? "A1Q (coloca una banda en A1 en dirección Q)"
+        : "A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)"));
     System.out.println("2. Las direcciones disponibles son:");
     System.out.println("   Q: Diagonal superior izquierda (\\)");
     System.out.println("   E: Diagonal superior derecha (/)");
@@ -52,8 +56,12 @@ public class Partida {
     System.out.println("   C: Diagonal inferior derecha (\\)");
     System.out.println("   Z: Diagonal inferior izquierda (/)");
     System.out.println("   A: Horizontal izquierda (-)");
-    System.out.println("3. También puedes especificar la longitud: [Letra][Número][Dirección][Longitud]");
-    System.out.println("   Ejemplo: A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)");
+    if (!bandaLargaFija) {
+      System.out.println("3. La longitud de la banda puede ser de 1 a 4");
+      System.out.println("   Si no se especifica, se usa longitud 4 por defecto");
+    } else {
+      System.out.println("3. La longitud de la banda está fija en 4");
+    }
     System.out.println("\nNota: Las letras van de A a M y los números de 1 a 7");
   }
 
@@ -79,7 +87,7 @@ public class Partida {
     }
 
     try {
-      Jugada jugada = JugadaParser.interpretar(input);
+      Jugada jugada = JugadaParser.interpretar(input, bandaLargaFija);
 
       if (tablero.colocarBanda(jugada)) {
         jugadasRealizadas++;
@@ -158,7 +166,7 @@ public class Partida {
   }
 
   public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner, int cantidadTablerosAMostrar,
-      boolean permitirSuperposicionBandas, int maxJugadas) {
+      boolean permitirSuperposicionBandas, int maxJugadas, boolean bandaLargaFija) {
     if (jugadores.size() < MIN_JUGADORES) {
       throw new IllegalStateException(
           "Se necesitan al menos " + MIN_JUGADORES + " jugadores para iniciar una partida.");
@@ -176,7 +184,7 @@ public class Partida {
     System.out.println("Jugador negro: " + jugadorNegro.getNombre());
 
     return new Partida(jugadorBlanco, jugadorNegro, scanner, cantidadTablerosAMostrar, permitirSuperposicionBandas,
-        maxJugadas);
+        maxJugadas, bandaLargaFija);
   }
 
   private static Jugador seleccionarJugador(ArrayList<Jugador> jugadores, Scanner scanner,
