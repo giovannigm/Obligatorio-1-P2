@@ -6,23 +6,27 @@ public class Tablero {
     private final char[][] tablero;
     private final int filas = 13;
     private final int columnas = 26; // Duplicado de 13
-    private final ValidadorBanda validadorBanda;
+    private ValidadorBanda validadorBanda;
     private final DetectorTriangulo detectorTriangulo;
     private final VisualizadorTablero visualizadorTablero;
     private ArrayList<Triangulo> triangulosActivos;
     private ArrayList<char[][]> historialTableros;
     private int cantidadTablerosAMostrar;
 
-    public Tablero(int cantidadTablerosAMostrar) {
+    public Tablero(int cantidadTablerosAMostrar, boolean permitirSuperposicionBandas) {
         this.cantidadTablerosAMostrar = cantidadTablerosAMostrar;
         this.tablero = new char[filas][columnas];
         this.triangulosActivos = new ArrayList<>();
         this.historialTableros = new ArrayList<>();
         inicializarTablero();
-        this.validadorBanda = new ValidadorBanda(tablero, filas, columnas);
+        this.validadorBanda = new ValidadorBanda(tablero, filas, columnas, permitirSuperposicionBandas);
         this.detectorTriangulo = new DetectorTriangulo(tablero, filas, columnas);
         this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas, triangulosActivos);
         guardarEstadoTablero();
+    }
+
+    public void setPermitirSuperposicionBandas(boolean permitirSuperposicionBandas) {
+        this.validadorBanda = new ValidadorBanda(tablero, filas, columnas, permitirSuperposicionBandas);
     }
 
     // Inicializa el tablero en forma de hexágono

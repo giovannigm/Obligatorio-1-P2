@@ -55,7 +55,7 @@ public class Interfaz {
         System.out.println("║              🌟 MENÚ PRINCIPAL 🌟          ║");
         System.out.println("╠════════════════════════════════════════════╣");
         System.out.println("║  1. 🧑 Registrar jugador                   ║");
-        System.out.println("║  2. ⚙️ Configurar partida                   ║");
+        System.out.println("║  2. ⚙️  Configurar partida                  ║");
         System.out.println("║  3. 🎮 Jugar partida                       ║");
         System.out.println("║  4. 🏆 Mostrar ranking                     ║");
         System.out.println("║  5. 🚪 Salir                               ║");
@@ -146,7 +146,8 @@ public class Interfaz {
 
         try {
             Partida partida = Partida.crearPartida(sistema.getJugadores(), input,
-                    sistema.getCantidadTablerosAMostrar());
+                    sistema.getCantidadTablerosAMostrar(),
+                    sistema.isPermitirSuperposicionBandas());
             partida.iniciar();
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
@@ -155,15 +156,19 @@ public class Interfaz {
 
     private void configurarPartida() {
         System.out.println("╔════════════════════════════════════════════╗");
-        System.out.println("║           ⚙️ CONFIGURACIÓN DE PARTIDA      ║");
+        System.out.println("║           ⚙️  CONFIGURACIÓN DE PARTIDA      ║");
         System.out.println("╠════════════════════════════════════════════╣");
         System.out.println("║  1. Configurar cantidad de tableros        ║");
-        System.out.println("║  2. Volver al menú principal               ║");
+        System.out.println("║  2. Configurar superposición de bandas     ║");
+        System.out.println("║  3. Volver al menú principal               ║");
         System.out.println("╚════════════════════════════════════════════╝");
 
-        int opcion = ingresarNumero("Ingrese una opción:", 1, 2);
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 3);
         if (opcion == 1) {
             configurarCantidadTableros();
+        }
+        if (opcion == 2) {
+            configurarSuperposicionBandas();
         }
     }
 
@@ -178,6 +183,28 @@ public class Interfaz {
             System.out.println("✅ Configuración guardada: se mostrarán " + cantidad + " tablero(s)");
         } catch (IllegalArgumentException e) {
             System.out.println("❌ Error: " + e.getMessage());
+        }
+    }
+
+    private void configurarSuperposicionBandas() {
+        System.out.println("\nConfiguración de superposición de bandas:");
+        System.out.println("Actualmente: " + (sistema.isPermitirSuperposicionBandas() ? "Permitida" : "No permitida"));
+        System.out.println("1. Permitir superposición de bandas");
+        System.out.println("2. No permitir superposición de bandas");
+        System.out.println("3. Volver");
+
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 3);
+        switch (opcion) {
+            case 1:
+                sistema.setPermitirSuperposicionBandas(true);
+                System.out.println("✅ Superposición de bandas permitida.");
+                break;
+            case 2:
+                sistema.setPermitirSuperposicionBandas(false);
+                System.out.println("✅ Superposición de bandas no permitida.");
+                break;
+            case 3:
+                return;
         }
     }
 }
