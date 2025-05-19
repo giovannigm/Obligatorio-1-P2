@@ -6,11 +6,13 @@ public class ValidadorBanda {
   private final char[][] tablero;
   private final int filas;
   private final int columnas;
+  private final boolean permitirSuperposicionBandas;
 
-  public ValidadorBanda(char[][] tablero, int filas, int columnas) {
+  public ValidadorBanda(char[][] tablero, int filas, int columnas, boolean permitirSuperposicionBandas) {
     this.tablero = tablero;
     this.filas = filas;
     this.columnas = columnas;
+    this.permitirSuperposicionBandas = permitirSuperposicionBandas;
   }
 
   public ArrayList<Posicion> validarJugada(Jugada jugada) {
@@ -101,8 +103,8 @@ public class ValidadorBanda {
       int filaBanda = (fila + filaValidacion) / 2;
       int columnaBanda = (columna + columnaValidacion) / 2;
 
-      // Validar que la posición de la banda sea un espacio vacío
-      if (tablero[filaBanda][columnaBanda] != ' ') {
+      // Validar que la posición de la banda sea un espacio vacío o permitir
+      if (!permitirSuperposicionBandas && tablero[filaBanda][columnaBanda] != ' ') {
         System.out.println("No se puede colocar banda sobre otra banda o punto.");
         return null;
       }
@@ -119,7 +121,7 @@ public class ValidadorBanda {
 
         fueraDeLimites = siguienteFila < 0 || siguienteFila >= filas ||
             siguienteColumna < 0 || siguienteColumna >= columnas;
-        if (fueraDeLimites || tablero[siguienteFila][siguienteColumna] != ' ') {
+        if (fueraDeLimites || (!permitirSuperposicionBandas && tablero[siguienteFila][siguienteColumna] != ' ')) {
           System.out.println("La banda debe conectarse con otro punto o banda válida.");
           return null;
         }

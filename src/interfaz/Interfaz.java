@@ -32,8 +32,7 @@ public class Interfaz {
                     break;
                 case 2:
                     System.out.println("");
-                    System.out.println("Opción 2 seleccionada: Configurar partida");
-                    // Aquí puedes agregar la lógica para configurar la partida
+                    configurarJuego();
                     break;
                 case 3:
                     System.out.println("");
@@ -56,7 +55,7 @@ public class Interfaz {
         System.out.println("║              🌟 MENÚ PRINCIPAL 🌟          ║");
         System.out.println("╠════════════════════════════════════════════╣");
         System.out.println("║  1. 🧑 Registrar jugador                   ║");
-        System.out.println("║  2. ⚙️ Configurar partida                   ║");
+        System.out.println("║  2. ⚙️  Configurar partida                  ║");
         System.out.println("║  3. 🎮 Jugar partida                       ║");
         System.out.println("║  4. 🏆 Mostrar ranking                     ║");
         System.out.println("║  5. 🚪 Salir                               ║");
@@ -146,10 +145,45 @@ public class Interfaz {
         System.out.println("Empezando partida...");
 
         try {
-            Partida partida = Partida.crearPartida(sistema.getJugadores(), input);
+            Partida partida = Partida.crearPartida(sistema.getJugadores(), input,
+                    sistema.isPermitirSuperposicionBandas());
             partida.iniciar();
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void configurarJuego() {
+        System.out.println("\n╔════════════════════════════════════════════╗");
+        System.out.println("║           ⚙️  CONFIGURACIÓN DEL JUEGO       ║");
+        System.out.println("╠════════════════════════════════════════════╣");
+        System.out.println("║  1. Configurar superposición de bandas     ║");
+        System.out.println("║  2. Volver al menú principal               ║");
+        System.out.println("╚════════════════════════════════════════════╝");
+
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 2);
+        if (opcion == 1) {
+            configurarSuperposicionBandas();
+        }
+    }
+
+    private void configurarSuperposicionBandas() {
+        System.out.println("\nConfiguración de superposición de bandas:");
+        System.out.println("Actualmente: " + (sistema.isPermitirSuperposicionBandas() ? "Permitida" : "No permitida"));
+        System.out.println("1. Permitir superposición de bandas");
+        System.out.println("2. No permitir superposición de bandas");
+        System.out.println("3. Volver");
+
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 3);
+        switch (opcion) {
+            case 1:
+                sistema.setPermitirSuperposicionBandas(true);
+                System.out.println("✅ Superposición de bandas permitida.");
+                break;
+            case 2:
+                sistema.setPermitirSuperposicionBandas(false);
+                System.out.println("✅ Superposición de bandas no permitida.");
+                break;
         }
     }
 }
