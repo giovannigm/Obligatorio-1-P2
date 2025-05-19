@@ -1,3 +1,4 @@
+// Trabajo desarrollado por: Nicolas(258264) y Giovanni(288127)
 package dominio;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ public class DetectorTriangulo {
   public ArrayList<Triangulo> detectarTriangulos() {
     ArrayList<Triangulo> triangulos = new ArrayList<>();
 
-    // Recorrer solo las filas pares donde están las horizontales
     for (int fila = 0; fila < filas; fila++) {
       for (int columna = 0; columna < columnas; columna++) {
         if (tablero[fila][columna] == '-') {
@@ -31,7 +31,6 @@ public class DetectorTriangulo {
       }
     }
 
-    System.out.println("Triangulos encontrados: " + triangulos.size());
     return triangulos;
   }
 

@@ -1,6 +1,9 @@
-package dominio;
+// Trabajo desarrollado por: Nicolas(258264) y Giovanni(288127)
+package interfaz;
 
 import java.util.ArrayList;
+
+import dominio.Triangulo;
 
 public class VisualizadorTablero {
   private final char[][] tablero;

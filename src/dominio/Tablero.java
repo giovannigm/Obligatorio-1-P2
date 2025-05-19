@@ -1,6 +1,9 @@
+// Trabajo desarrollado por: Nicolas(258264) y Giovanni(288127)
 package dominio;
 
 import java.util.ArrayList;
+
+import interfaz.VisualizadorTablero;
 
 public class Tablero {
     private final char[][] tablero;
