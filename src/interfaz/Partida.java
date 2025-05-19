@@ -1,6 +1,13 @@
-package dominio;
+package interfaz;
 
 import java.util.Scanner;
+
+import dominio.Jugada;
+import dominio.JugadaParser;
+import dominio.Jugador;
+import dominio.Tablero;
+import dominio.Triangulo;
+
 import java.util.ArrayList;
 
 public class Partida {
@@ -40,19 +47,29 @@ public class Partida {
   }
 
   private void mostrarInstrucciones() {
-    System.out.println("\nInstrucciones para colocar bandas:");
-    System.out.println("1. El formato es: [Letra][Número][Dirección]");
-    System.out.println("   Ejemplo: A1Q (coloca una banda en A1 en dirección Q)");
-    System.out.println("2. Las direcciones disponibles son:");
-    System.out.println("   Q: Diagonal superior izquierda (\\)");
-    System.out.println("   E: Diagonal superior derecha (/)");
-    System.out.println("   D: Horizontal derecha (-)");
-    System.out.println("   C: Diagonal inferior derecha (\\)");
-    System.out.println("   Z: Diagonal inferior izquierda (/)");
-    System.out.println("   A: Horizontal izquierda (-)");
-    System.out.println("3. También puedes especificar la longitud: [Letra][Número][Dirección][Longitud]");
-    System.out.println("   Ejemplo: A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)");
-    System.out.println("\nNota: Las letras van de A a M y los números de 1 a 7");
+    System.out.println("\n==============================================");
+    System.out.println("         INSTRUCCIONES PARA COLOCAR BANDAS");
+    System.out.println("==============================================");
+    System.out.println(" Formato de jugada: [Letra][Número][Dirección][Longitud]");
+    System.out.println(" Ejemplo corto:     A1Q   (coloca una banda en A1 en dirección Q)");
+    System.out.println(" Ejemplo largo:     A1Q3  (coloca una banda de longitud 3 en A1 en dirección Q)");
+    System.out.println();
+    System.out.println(" Direcciones disponibles:");
+    System.out.println("   Q : Diagonal superior izquierda   (\\)");
+    System.out.println("   E : Diagonal superior derecha     (/)");
+    System.out.println("   D : Horizontal derecha            (-)");
+    System.out.println("   C : Diagonal inferior derecha     (\\)");
+    System.out.println("   Z : Diagonal inferior izquierda   (/)");
+    System.out.println("   A : Horizontal izquierda          (-)");
+    System.out.println();
+    System.out.println(" Rango de coordenadas:");
+    System.out.println("   Letras:  A a M");
+    System.out.println("   Números: 1 a 7");
+    System.out.println();
+    System.out.println(" Otros comandos:");
+    System.out.println("   H : Ver historial de jugadas");
+    System.out.println("   X : Terminar la partida");
+    System.out.println("==============================================\n");
   }
 
   private void ejecutarTurno() {

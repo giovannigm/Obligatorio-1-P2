@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import dominio.Jugador;
 import dominio.Sistema;
-import dominio.Partida;
 
 public class Interfaz {
     private Sistema sistema;

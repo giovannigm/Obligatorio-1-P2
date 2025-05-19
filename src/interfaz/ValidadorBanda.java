@@ -1,6 +1,9 @@
-package dominio;
+package interfaz;
 
 import java.util.ArrayList;
+
+import dominio.Jugada;
+import dominio.Posicion;
 
 public class ValidadorBanda {
   private final char[][] tablero;
