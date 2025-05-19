@@ -11,6 +11,10 @@ public class Partida {
   private boolean partidaTerminada;
   private final Scanner scanner;
   private static final int MIN_JUGADORES = 2;
+  private static final int MAX_JUGADAS = 10;
+  private int jugadasRealizadas;
+  private int puntajeBlanco;
+  private int puntajeNegro;
   private ArrayList<String> historialJugadas;
 
   public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner) {
@@ -20,6 +24,9 @@ public class Partida {
     this.jugadorActual = jugadorBlanco; // El blanco siempre comienza
     this.partidaTerminada = false;
     this.scanner = scanner;
+    this.jugadasRealizadas = 0;
+    this.puntajeBlanco = 0;
+    this.puntajeNegro = 0;
     this.historialJugadas = new ArrayList<>();
   }
 
@@ -49,7 +56,15 @@ public class Partida {
   }
 
   private void ejecutarTurno() {
+    if (jugadasRealizadas >= MAX_JUGADAS) {
+      System.out.println("Se acabaron las jugadas 1");
+      determinarGanador();
+      partidaTerminada = true;
+      return;
+    }
+
     System.out.println("\nTurno de: " + jugadorActual.getNombre());
+    System.out.println("Jugadas restantes: " + (MAX_JUGADAS - jugadasRealizadas));
     System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3), 'H' para ver historial, o 'X' para terminar:");
 
     String input = scanner.nextLine();
@@ -66,6 +81,7 @@ public class Partida {
       Jugada jugada = JugadaParser.interpretar(input);
 
       if (tablero.colocarBanda(jugada)) {
+        jugadasRealizadas++;
         String jugadaHistorial = String.format("%s: %s", jugadorActual.getNombre(), jugada.toString());
         historialJugadas.add(jugadaHistorial);
 
@@ -78,13 +94,24 @@ public class Partida {
           char color = (jugadorActual == jugadorBlanco) ? '□' : '■';
           for (Triangulo triangulo : triangulos) {
             tablero.marcarTriangulo(triangulo, color);
-            jugadorActual.incrementarPuntaje(1); // Incrementar puntaje por cada triángulo
+            if (jugadorActual == jugadorBlanco) {
+              puntajeBlanco++;
+            } else {
+              puntajeNegro++;
+            }
           }
         }
 
         System.out.println("\nTablero actualizado:");
         tablero.mostrarTablero();
-        cambiarTurno();
+
+        if (jugadasRealizadas >= MAX_JUGADAS) {
+          System.out.println("Se acabaron las jugadas 2");
+          determinarGanador();
+          partidaTerminada = true;
+        } else {
+          cambiarTurno();
+        }
       }
     } catch (Exception e) {
       System.out.println("Error al interpretar la jugada: " + e.getMessage());
@@ -106,6 +133,23 @@ public class Partida {
 
   private void cambiarTurno() {
     jugadorActual = (jugadorActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
+  }
+
+  private void determinarGanador() {
+    System.out.println("\n=== FIN DE LA PARTIDA ===");
+    System.out.println("Jugadas realizadas: " + jugadasRealizadas);
+    System.out.println("Puntaje " + jugadorBlanco.getNombre() + ": " + puntajeBlanco);
+    System.out.println("Puntaje " + jugadorNegro.getNombre() + ": " + puntajeNegro);
+
+    if (puntajeBlanco > puntajeNegro) {
+      System.out.println("¡" + jugadorBlanco.getNombre() + " es el ganador!");
+      jugadorBlanco.setPartidasGanadas(jugadorBlanco.getPartidasGanadas() + 1);
+    } else if (puntajeNegro > puntajeBlanco) {
+      System.out.println("¡" + jugadorNegro.getNombre() + " es el ganador!");
+      jugadorNegro.setPartidasGanadas(jugadorNegro.getPartidasGanadas() + 1);
+    } else {
+      System.out.println("¡Empate! Ambos jugadores formaron la misma cantidad de triángulos.");
+    }
   }
 
   public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner) {
