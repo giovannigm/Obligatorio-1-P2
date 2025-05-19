@@ -5,11 +5,24 @@ import java.util.ArrayList;
 
 public class Sistema {
     private ArrayList<Jugador> misJugadores;
+    private int cantidadTablerosAMostrar;
     private boolean permitirSuperposicionBandas;
 
     public Sistema() {
         misJugadores = new ArrayList<Jugador>();
+        this.cantidadTablerosAMostrar = 1;
         this.permitirSuperposicionBandas = true;
+    }
+
+    public void setCantidadTablerosAMostrar(int cantidad) {
+        if (cantidad < 1 || cantidad > 3) {
+            throw new IllegalArgumentException("La cantidad de tableros debe estar entre 1 y 3");
+        }
+        this.cantidadTablerosAMostrar = cantidad;
+    }
+
+    public int getCantidadTablerosAMostrar() {
+        return cantidadTablerosAMostrar;
     }
 
     public void agregarJugador(Jugador unJugador) {

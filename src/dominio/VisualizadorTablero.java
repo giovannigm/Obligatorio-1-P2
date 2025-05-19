@@ -7,12 +7,19 @@ public class VisualizadorTablero {
   private final int filas;
   private final int columnas;
   private final ArrayList<Triangulo> triangulosActivos;
+  private ArrayList<char[][]> historialTableros;
 
   public VisualizadorTablero(char[][] tablero, int filas, int columnas, ArrayList<Triangulo> triangulosActivos) {
     this.tablero = tablero;
     this.filas = filas;
     this.columnas = columnas;
     this.triangulosActivos = triangulosActivos;
+    this.historialTableros = new ArrayList<>();
+  }
+
+  public void setHistorialTableros(ArrayList<char[][]> historial) {
+    System.out.println("Historial de tableros: " + historial.size());
+    this.historialTableros = historial;
   }
 
   public void mostrarTablero() {
@@ -33,25 +40,48 @@ public class VisualizadorTablero {
     System.out.println("Negros (■): " + triangulosNegros);
     System.out.println();
 
-    // Mostrar letras en la parte superior (A-M)
-    System.out.print("    ");
-    for (char c = 'A'; c <= 'M'; c++) {
-      System.out.print(c + " "); // Añadido espacio extra para el nuevo tamaño
+    ArrayList<char[][]> tablerosAMostrar = new ArrayList<>();
+    for (char[][] tablero : historialTableros) {
+      tablerosAMostrar.add(tablero);
+    }
+    if (tablerosAMostrar.size() == 0) {
+      tablerosAMostrar.add(tablero);
+    }
+    // Mostrar letras en la parte superior para cada tablero
+    for (int t = 0; t < tablerosAMostrar.size(); t++) {
+      System.out.print("    ");
+      for (char c = 'A'; c <= 'M'; c++) {
+        System.out.print(c + " ");
+      }
+      System.out.print("    "); // Espacio entre tableros
     }
     System.out.println();
 
-    // Mostrar el tablero
+    // Mostrar los tableros lado a lado
     for (int fila = 0; fila < filas; fila++) {
-      if (fila % 2 == 0) {
-        // Imprime el numero con un cero a la izquierda para evitar saltos de linea
-        System.out.print(String.format("%02d", fila / 2 + 1) + "  ");
-      } else {
-        System.out.print("--  ");
-      }
-      for (int columna = 0; columna < columnas; columna++) {
-        System.out.print(tablero[fila][columna]);
+      for (char[][] tableroActual : tablerosAMostrar) {
+        if (fila % 2 == 0) {
+          System.out.print(String.format("%02d", fila / 2 + 1) + "  ");
+        } else {
+          System.out.print("--  ");
+        }
+        for (int columna = 0; columna < columnas; columna++) {
+          System.out.print(tableroActual[fila][columna]);
+        }
+        System.out.print("    "); // Espacio entre tableros
       }
       System.out.println();
     }
+
+    // Mostrar indicador de tiempo para cada tablero
+    System.out.println();
+    for (int t = 0; t < tablerosAMostrar.size(); t++) {
+      if (t == tablerosAMostrar.size() - 1) {
+        System.out.print("Tablero actual    ");
+      } else {
+        System.out.print("Tablero " + (t + 1) + " atrás                   ");
+      }
+    }
+    System.out.println();
   }
 }

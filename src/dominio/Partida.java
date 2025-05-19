@@ -17,8 +17,9 @@ public class Partida {
   private int puntajeNegro;
   private ArrayList<String> historialJugadas;
 
-  public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner, boolean permitirSuperposicionBandas) {
-    this.tablero = new Tablero(permitirSuperposicionBandas);
+  public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner, int cantidadTablerosAMostrar,
+      boolean permitirSuperposicionBandas) {
+    this.tablero = new Tablero(cantidadTablerosAMostrar, permitirSuperposicionBandas);
     this.jugadorBlanco = jugadorBlanco;
     this.jugadorNegro = jugadorNegro;
     this.jugadorActual = jugadorBlanco; // El blanco siempre comienza
@@ -102,6 +103,11 @@ public class Partida {
           }
         }
 
+        System.out.println("Historial de tableros Partida: " + tablero.getHistorialTableros().size());
+        // Guardar el estado del tablero después de cada jugada válida
+        tablero.getVisualizadorTablero().setHistorialTableros(tablero.getHistorialTableros());
+        tablero.guardarEstadoTablero();
+
         System.out.println("\nTablero actualizado:");
         tablero.mostrarTablero();
 
@@ -152,7 +158,7 @@ public class Partida {
     }
   }
 
-  public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner,
+  public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner, int cantidadTablerosAMostrar,
       boolean permitirSuperposicionBandas) {
     if (jugadores.size() < MIN_JUGADORES) {
       throw new IllegalStateException(
@@ -170,7 +176,7 @@ public class Partida {
     System.out.println("\nJugador blanco: " + jugadorBlanco.getNombre());
     System.out.println("Jugador negro: " + jugadorNegro.getNombre());
 
-    return new Partida(jugadorBlanco, jugadorNegro, scanner, permitirSuperposicionBandas);
+    return new Partida(jugadorBlanco, jugadorNegro, scanner, cantidadTablerosAMostrar, permitirSuperposicionBandas);
   }
 
   private static Jugador seleccionarJugador(ArrayList<Jugador> jugadores, Scanner scanner,
