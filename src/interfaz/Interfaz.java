@@ -148,7 +148,8 @@ public class Interfaz {
             Partida partida = Partida.crearPartida(sistema.getJugadores(), input,
                     sistema.getCantidadTablerosAMostrar(),
                     sistema.isPermitirSuperposicionBandas(),
-                    sistema.getMaxJugadas());
+                    sistema.getMaxJugadas(),
+                    sistema.isBandaLargaFija());
             partida.iniciar();
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
@@ -162,10 +163,11 @@ public class Interfaz {
         System.out.println("║  1. Configurar cantidad de tableros        ║");
         System.out.println("║  2. Configurar superposición de bandas     ║");
         System.out.println("║  3. Configurar cantidad máxima de jugadas  ║");
-        System.out.println("║  4. Volver al menú principal               ║");
+        System.out.println("║  4. Configurar longitud de bandas          ║");
+        System.out.println("║  5. Volver al menú principal               ║");
         System.out.println("╚════════════════════════════════════════════╝");
 
-        int opcion = ingresarNumero("Ingrese una opción:", 1, 4);
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 5);
         if (opcion == 1) {
             configurarCantidadTableros();
         }
@@ -174,6 +176,9 @@ public class Interfaz {
         }
         if (opcion == 3) {
             configurarMaxJugadas();
+        }
+        if (opcion == 4) {
+            configurarLongitudBandas();
         }
     }
 
@@ -224,6 +229,29 @@ public class Interfaz {
             System.out.println("✅ Configuración guardada: se permitirán " + cantidad + " jugadas por partida");
         } catch (IllegalArgumentException e) {
             System.out.println("❌ Error: " + e.getMessage());
+        }
+    }
+
+    private void configurarLongitudBandas() {
+        System.out.println("\nConfiguración de longitud de bandas:");
+        System.out.println(
+                "Actualmente: " + (sistema.isBandaLargaFija() ? "Longitud fija de 4" : "Longitud variable (1-4)"));
+        System.out.println("1. Longitud fija de 4");
+        System.out.println("2. Longitud variable (1-4)");
+        System.out.println("3. Volver");
+
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 3);
+        switch (opcion) {
+            case 1:
+                sistema.setBandaLargaFija(true);
+                System.out.println("✅ Longitud de bandas configurada a fija (4).");
+                break;
+            case 2:
+                sistema.setBandaLargaFija(false);
+                System.out.println("✅ Longitud de bandas configurada a variable (1-4).");
+                break;
+            case 3:
+                return;
         }
     }
 }
