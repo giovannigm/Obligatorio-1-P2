@@ -147,7 +147,8 @@ public class Interfaz {
         try {
             Partida partida = Partida.crearPartida(sistema.getJugadores(), input,
                     sistema.getCantidadTablerosAMostrar(),
-                    sistema.isPermitirSuperposicionBandas());
+                    sistema.isPermitirSuperposicionBandas(),
+                    sistema.getMaxJugadas());
             partida.iniciar();
         } catch (IllegalStateException e) {
             System.out.println(e.getMessage());
@@ -160,15 +161,19 @@ public class Interfaz {
         System.out.println("╠════════════════════════════════════════════╣");
         System.out.println("║  1. Configurar cantidad de tableros        ║");
         System.out.println("║  2. Configurar superposición de bandas     ║");
-        System.out.println("║  3. Volver al menú principal               ║");
+        System.out.println("║  3. Configurar cantidad máxima de jugadas  ║");
+        System.out.println("║  4. Volver al menú principal               ║");
         System.out.println("╚════════════════════════════════════════════╝");
 
-        int opcion = ingresarNumero("Ingrese una opción:", 1, 3);
+        int opcion = ingresarNumero("Ingrese una opción:", 1, 4);
         if (opcion == 1) {
             configurarCantidadTableros();
         }
         if (opcion == 2) {
             configurarSuperposicionBandas();
+        }
+        if (opcion == 3) {
+            configurarMaxJugadas();
         }
     }
 
@@ -205,6 +210,20 @@ public class Interfaz {
                 break;
             case 3:
                 return;
+        }
+    }
+
+    private void configurarMaxJugadas() {
+        System.out.println("\nConfiguración de cantidad máxima de jugadas");
+        System.out.println("Actualmente se permiten " + sistema.getMaxJugadas() + " jugadas por partida");
+        System.out.println("Ingrese un número mayor a 0 para la cantidad máxima de jugadas");
+
+        try {
+            int cantidad = ingresarNumero("Ingrese la cantidad máxima de jugadas:", 1, Integer.MAX_VALUE);
+            sistema.setMaxJugadas(cantidad);
+            System.out.println("✅ Configuración guardada: se permitirán " + cantidad + " jugadas por partida");
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Error: " + e.getMessage());
         }
     }
 }

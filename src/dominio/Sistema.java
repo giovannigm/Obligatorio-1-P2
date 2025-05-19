@@ -7,11 +7,13 @@ public class Sistema {
     private ArrayList<Jugador> misJugadores;
     private int cantidadTablerosAMostrar;
     private boolean permitirSuperposicionBandas;
+    private int maxJugadas;
 
     public Sistema() {
         misJugadores = new ArrayList<Jugador>();
         this.cantidadTablerosAMostrar = 1;
         this.permitirSuperposicionBandas = true;
+        this.maxJugadas = 10;
     }
 
     public void setCantidadTablerosAMostrar(int cantidad) {
@@ -48,5 +50,16 @@ public class Sistema {
 
     public void setPermitirSuperposicionBandas(boolean permitirSuperposicionBandas) {
         this.permitirSuperposicionBandas = permitirSuperposicionBandas;
+    }
+
+    public int getMaxJugadas() {
+        return maxJugadas;
+    }
+
+    public void setMaxJugadas(int maxJugadas) {
+        if (maxJugadas <= 0) {
+            throw new IllegalArgumentException("La cantidad máxima de jugadas debe ser mayor a 0");
+        }
+        this.maxJugadas = maxJugadas;
     }
 }
