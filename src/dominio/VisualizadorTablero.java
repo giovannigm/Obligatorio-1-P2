@@ -40,8 +40,6 @@ public class VisualizadorTablero {
     System.out.println("Negros (■): " + triangulosNegros);
     System.out.println();
 
-    System.out.println("Historial de tableros Visualizador: " + historialTableros.size());
-    // Preparar los tableros para mostrar
     ArrayList<char[][]> tablerosAMostrar = new ArrayList<>();
     for (char[][] tablero : historialTableros) {
       tablerosAMostrar.add(tablero);
@@ -49,7 +47,6 @@ public class VisualizadorTablero {
     if (tablerosAMostrar.size() == 0) {
       tablerosAMostrar.add(tablero);
     }
-    System.out.println("Tableros para mostrar: " + tablerosAMostrar.size());
     // Mostrar letras en la parte superior para cada tablero
     for (int t = 0; t < tablerosAMostrar.size(); t++) {
       System.out.print("    ");

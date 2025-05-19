@@ -10,10 +10,11 @@ public class Tablero {
     private final DetectorTriangulo detectorTriangulo;
     private final VisualizadorTablero visualizadorTablero;
     private ArrayList<Triangulo> triangulosActivos;
-    private static final int MAX_BOARD_HISTORY = 3;
     private ArrayList<char[][]> historialTableros;
+    private int cantidadTablerosAMostrar;
 
-    public Tablero() {
+    public Tablero(int cantidadTablerosAMostrar) {
+        this.cantidadTablerosAMostrar = cantidadTablerosAMostrar;
         this.tablero = new char[filas][columnas];
         this.triangulosActivos = new ArrayList<>();
         this.historialTableros = new ArrayList<>();
@@ -21,7 +22,6 @@ public class Tablero {
         this.validadorBanda = new ValidadorBanda(tablero, filas, columnas);
         this.detectorTriangulo = new DetectorTriangulo(tablero, filas, columnas);
         this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas, triangulosActivos);
-
         guardarEstadoTablero();
     }
 
@@ -131,13 +131,11 @@ public class Tablero {
 
     // Método para guardar el estado actual del tablero
     public void guardarEstadoTablero() {
-        System.out.println("Estado del tablero guardado before before: " + historialTableros.size());
         historialTableros.add(copiarTablero());
-        System.out.println("Estado del tablero guardado before: " + historialTableros.size());
-        while (historialTableros.size() > MAX_BOARD_HISTORY) {
+        int maxHistory = this.cantidadTablerosAMostrar;
+        while (historialTableros.size() > maxHistory) {
             historialTableros.remove(0);
         }
-        System.out.println("Estado del tablero guardado after: " + historialTableros.size());
     }
 
     // Método para obtener el historial de tableros

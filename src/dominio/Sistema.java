@@ -5,11 +5,23 @@ import java.util.ArrayList;
 
 public class Sistema {
     private ArrayList<Jugador> misJugadores;
+    private int cantidadTablerosAMostrar;
 
     public Sistema() {
         // inicializo las listas
         misJugadores = new ArrayList<Jugador>();
+        this.cantidadTablerosAMostrar = 1;
+    }
 
+    public void setCantidadTablerosAMostrar(int cantidad) {
+        if (cantidad < 1 || cantidad > 3) {
+            throw new IllegalArgumentException("La cantidad de tableros debe estar entre 1 y 3");
+        }
+        this.cantidadTablerosAMostrar = cantidad;
+    }
+
+    public int getCantidadTablerosAMostrar() {
+        return cantidadTablerosAMostrar;
     }
 
     public void agregarJugador(Jugador unJugador) {
