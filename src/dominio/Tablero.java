@@ -13,14 +13,19 @@ public class Tablero {
     private final DetectorTriangulo detectorTriangulo;
     private final VisualizadorTablero visualizadorTablero;
     private ArrayList<Triangulo> triangulosActivos;
+    private ArrayList<char[][]> historialTableros;
+    private int cantidadTablerosAMostrar;
 
-    public Tablero(boolean permitirSuperposicionBandas) {
+    public Tablero(int cantidadTablerosAMostrar, boolean permitirSuperposicionBandas) {
+        this.cantidadTablerosAMostrar = cantidadTablerosAMostrar;
         this.tablero = new char[filas][columnas];
         this.triangulosActivos = new ArrayList<>();
+        this.historialTableros = new ArrayList<>();
         inicializarTablero();
         this.validadorBanda = new ValidadorBanda(tablero, filas, columnas, permitirSuperposicionBandas);
         this.detectorTriangulo = new DetectorTriangulo(tablero, filas, columnas);
         this.visualizadorTablero = new VisualizadorTablero(tablero, filas, columnas, triangulosActivos);
+        guardarEstadoTablero();
     }
 
     public void setPermitirSuperposicionBandas(boolean permitirSuperposicionBandas) {
@@ -120,5 +125,37 @@ public class Tablero {
     // Muestra el tablero con las letras de las columnas y los numeros de las filas
     public void mostrarTablero() {
         visualizadorTablero.mostrarTablero();
+    }
+
+    // Método para crear una copia profunda del tablero
+    private char[][] copiarTablero() {
+        char[][] copia = new char[filas][columnas];
+        for (int i = 0; i < filas; i++) {
+            System.arraycopy(tablero[i], 0, copia[i], 0, columnas);
+        }
+        return copia;
+    }
+
+    // Método para guardar el estado actual del tablero
+    public void guardarEstadoTablero() {
+        historialTableros.add(copiarTablero());
+        int maxHistory = this.cantidadTablerosAMostrar;
+        while (historialTableros.size() > maxHistory) {
+            historialTableros.remove(0);
+        }
+    }
+
+    // Método para obtener el historial de tableros
+    public ArrayList<char[][]> getHistorialTableros() {
+        return historialTableros;
+    }
+
+    // Método para obtener el tablero actual
+    public char[][] getTableroActual() {
+        return tablero;
+    }
+
+    public VisualizadorTablero getVisualizadorTablero() {
+        return visualizadorTablero;
     }
 }

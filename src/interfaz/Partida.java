@@ -19,23 +19,27 @@ public class Partida {
   private boolean partidaTerminada;
   private final Scanner scanner;
   private static final int MIN_JUGADORES = 2;
-  private static final int MAX_JUGADAS = 10;
+  private final int maxJugadas;
   private int jugadasRealizadas;
   private int puntajeBlanco;
   private int puntajeNegro;
   private ArrayList<String> historialJugadas;
+  private boolean bandaLargaFija;
 
-  public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner, boolean permitirSuperposicionBandas) {
-    this.tablero = new Tablero(permitirSuperposicionBandas);
+  public Partida(Jugador jugadorBlanco, Jugador jugadorNegro, Scanner scanner, int cantidadTablerosAMostrar,
+      boolean permitirSuperposicionBandas, int maxJugadas, boolean bandaLargaFija) {
+    this.tablero = new Tablero(cantidadTablerosAMostrar, permitirSuperposicionBandas);
     this.jugadorBlanco = jugadorBlanco;
     this.jugadorNegro = jugadorNegro;
     this.jugadorActual = jugadorBlanco; // El blanco siempre comienza
     this.partidaTerminada = false;
     this.scanner = scanner;
+    this.maxJugadas = maxJugadas;
     this.jugadasRealizadas = 0;
     this.puntajeBlanco = 0;
     this.puntajeNegro = 0;
     this.historialJugadas = new ArrayList<>();
+    this.bandaLargaFija = bandaLargaFija;
   }
 
   public void iniciar() {
@@ -51,9 +55,10 @@ public class Partida {
     System.out.println("\n==============================================");
     System.out.println("         INSTRUCCIONES PARA COLOCAR BANDAS");
     System.out.println("==============================================");
-    System.out.println(" Formato de jugada: [Letra][Número][Dirección][Longitud]");
-    System.out.println(" Ejemplo corto:     A1Q   (coloca una banda en A1 en dirección Q)");
-    System.out.println(" Ejemplo largo:     A1Q3  (coloca una banda de longitud 3 en A1 en dirección Q)");
+    System.out.println(" Formato de jugada: [Letra][Número][Dirección]" + (bandaLargaFija ? "" : "[Longitud]"));
+    System.out.println("   Ejemplo: " + (bandaLargaFija ? "A1Q (coloca una banda en A1 en dirección Q)"
+        : "A1Q3 (coloca una banda de longitud 3 en A1 en dirección Q)"));
+    System.out.println("2. Las direcciones disponibles son:");
     System.out.println();
     System.out.println(" Direcciones disponibles:");
     System.out.println("   Q : Diagonal superior izquierda   (\\)");
@@ -74,15 +79,14 @@ public class Partida {
   }
 
   private void ejecutarTurno() {
-    if (jugadasRealizadas >= MAX_JUGADAS) {
-      System.out.println("Se acabaron las jugadas 1");
+    if (jugadasRealizadas >= maxJugadas) {
       determinarGanador();
       partidaTerminada = true;
       return;
     }
 
     System.out.println("\nTurno de jugador: " + ((jugadorActual == jugadorBlanco) ? "blanco" : "negro"));
-    System.out.println("Jugadas restantes: " + (MAX_JUGADAS - jugadasRealizadas));
+    System.out.println("Jugadas restantes: " + (maxJugadas - jugadasRealizadas));
     System.out.println("Ingrese una jugada (ejemplo: A1Q o A1Q3), 'H' para ver historial, o 'X' para terminar:");
 
     String input = scanner.nextLine();
@@ -96,7 +100,7 @@ public class Partida {
     }
 
     try {
-      Jugada jugada = JugadaParser.interpretar(input);
+      Jugada jugada = JugadaParser.interpretar(input, bandaLargaFija);
 
       if (tablero.colocarBanda(jugada)) {
         jugadasRealizadas++;
@@ -120,11 +124,15 @@ public class Partida {
           }
         }
 
+        System.out.println("Historial de tableros Partida: " + tablero.getHistorialTableros().size());
+        // Guardar el estado del tablero después de cada jugada válida
+        tablero.getVisualizadorTablero().setHistorialTableros(tablero.getHistorialTableros());
+        tablero.guardarEstadoTablero();
+
         System.out.println("\nTablero actualizado:");
         tablero.mostrarTablero();
 
-        if (jugadasRealizadas >= MAX_JUGADAS) {
-          System.out.println("Se acabaron las jugadas 2");
+        if (jugadasRealizadas >= maxJugadas) {
           determinarGanador();
           partidaTerminada = true;
         } else {
@@ -170,8 +178,8 @@ public class Partida {
     }
   }
 
-  public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner,
-      boolean permitirSuperposicionBandas) {
+  public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner, int cantidadTablerosAMostrar,
+      boolean permitirSuperposicionBandas, int maxJugadas, boolean bandaLargaFija) {
     if (jugadores.size() < MIN_JUGADORES) {
       throw new IllegalStateException(
           "Se necesitan al menos " + MIN_JUGADORES + " jugadores para iniciar una partida.");
@@ -188,7 +196,8 @@ public class Partida {
     System.out.println("\nJugador blanco: " + jugadorBlanco.getNombre());
     System.out.println("Jugador negro: " + jugadorNegro.getNombre());
 
-    return new Partida(jugadorBlanco, jugadorNegro, scanner, permitirSuperposicionBandas);
+    return new Partida(jugadorBlanco, jugadorNegro, scanner, cantidadTablerosAMostrar, permitirSuperposicionBandas,
+        maxJugadas, bandaLargaFija);
   }
 
   private static Jugador seleccionarJugador(ArrayList<Jugador> jugadores, Scanner scanner,
