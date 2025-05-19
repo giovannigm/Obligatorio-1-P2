@@ -1,6 +1,7 @@
 // Trabajo desarrollado por: Nicolas(258264) y Giovanni(288127)
 package interfaz;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import dominio.Jugador;
@@ -112,20 +113,52 @@ public class Interfaz {
             System.out.println("║    🚫 ¡No hay jugadores registrados! 🚫    ║");
             System.out.println("╚════════════════════════════════════════════╝");
         } else {
-            System.out.println("╔═════════════════════════════════════════════════╗");
-            System.out.println("║           🏆 RANKING DE JUGADORES               ║");
-            System.out.println("╠═════════════════════════════════════════════════╣");
-            int totalJugadores = sistema.getJugadores().size();
-            int contador = 0;
-            for (Jugador unJugador : sistema.getJugadores()) {
-                contador++;
-                System.out.printf("║      %-15s ││   Partidas Ganadas: %-2d  ║%n", unJugador.getNombre(),
-                        unJugador.getPartidasGanadas());
-                if (contador < totalJugadores) {
-                    System.out.println("╠" + "═".repeat(49) + "╣");
+            // Ordenar jugadores por partidas ganadas (de mayor a menor)
+            ArrayList<Jugador> jugadoresOrdenados = new ArrayList<>(sistema.getJugadores());
+            jugadoresOrdenados.sort((j1, j2) -> Integer.compare(j2.getPartidasGanadas(), j1.getPartidasGanadas()));
+
+            // Calcular la racha actual más alta
+            int rachaMaxima = 0;
+            ArrayList<Jugador> jugadoresConRachaMaxima = new ArrayList<>();
+            for (Jugador j : jugadoresOrdenados) {
+                int racha = j.getRachaActual();
+                if (racha > rachaMaxima) {
+                    rachaMaxima = racha;
+                    jugadoresConRachaMaxima.clear();
+                    jugadoresConRachaMaxima.add(j);
+                } else if (racha == rachaMaxima && rachaMaxima > 0) {
+                    jugadoresConRachaMaxima.add(j);
                 }
             }
-            System.out.println("╚" + "═".repeat(49) + "╝");
+
+            System.out.println("╔════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║           🏆 RANKING DE JUGADORES                                 ║");
+            System.out.println("╠════════════════════════════════════════════════════════════════════╣");
+            int totalJugadores = jugadoresOrdenados.size();
+            int contador = 0;
+            for (Jugador unJugador : jugadoresOrdenados) {
+                contador++;
+                System.out.printf("║ %-2d. %-15s │ Partidas Ganadas: %-2d │ Racha Actual: %-2d ║%n",
+                        contador, unJugador.getNombre(), unJugador.getPartidasGanadas(), unJugador.getRachaActual());
+                if (contador < totalJugadores) {
+                    System.out.println("╠" + "═".repeat(66) + "╣");
+                }
+            }
+            System.out.println("╚" + "═".repeat(66) + "╝");
+
+            // Mostrar el/los jugador/es con la racha actual más larga
+            if (rachaMaxima > 0 && !jugadoresConRachaMaxima.isEmpty()) {
+                System.out.print("\n🔥 Racha ganadora actual más larga: " + rachaMaxima + " partida(s) consecutivas. Jugador(es): ");
+                for (int i = 0; i < jugadoresConRachaMaxima.size(); i++) {
+                    System.out.print(jugadoresConRachaMaxima.get(i).getNombre());
+                    if (i < jugadoresConRachaMaxima.size() - 1) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.println();
+            } else {
+                System.out.println("\nNo hay rachas ganadoras actuales.");
+            }
         }
     }
 

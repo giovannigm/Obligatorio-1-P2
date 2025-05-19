@@ -162,21 +162,27 @@ public class Partida {
   }
 
   private void determinarGanador() {
-    System.out.println("\n=== FIN DE LA PARTIDA ===");
-    System.out.println("Jugadas realizadas: " + jugadasRealizadas);
-    System.out.println("Puntaje " + jugadorBlanco.getNombre() + ": " + puntajeBlanco);
-    System.out.println("Puntaje " + jugadorNegro.getNombre() + ": " + puntajeNegro);
+        System.out.println("\n=== FIN DE LA PARTIDA ===");
+        System.out.println("Jugadas realizadas: " + jugadasRealizadas);
+        System.out.println("Puntaje " + jugadorBlanco.getNombre() + ": " + puntajeBlanco);
+        System.out.println("Puntaje " + jugadorNegro.getNombre() + ": " + puntajeNegro);
 
-    if (puntajeBlanco > puntajeNegro) {
-      System.out.println("¡" + jugadorBlanco.getNombre() + " es el ganador!");
-      jugadorBlanco.setPartidasGanadas(jugadorBlanco.getPartidasGanadas() + 1);
-    } else if (puntajeNegro > puntajeBlanco) {
-      System.out.println("¡" + jugadorNegro.getNombre() + " es el ganador!");
-      jugadorNegro.setPartidasGanadas(jugadorNegro.getPartidasGanadas() + 1);
-    } else {
-      System.out.println("¡Empate! Ambos jugadores formaron la misma cantidad de triángulos.");
+        if (puntajeBlanco > puntajeNegro) {
+            System.out.println("¡" + jugadorBlanco.getNombre() + " es el ganador!");
+            jugadorBlanco.setPartidasGanadas(jugadorBlanco.getPartidasGanadas() + 1);
+            jugadorBlanco.setRachaActual(jugadorBlanco.getRachaActual() + 1);
+            jugadorNegro.setRachaActual(0);
+        } else if (puntajeNegro > puntajeBlanco) {
+            System.out.println("¡" + jugadorNegro.getNombre() + " es el ganador!");
+            jugadorNegro.setPartidasGanadas(jugadorNegro.getPartidasGanadas() + 1);
+            jugadorNegro.setRachaActual(jugadorNegro.getRachaActual() + 1);
+            jugadorBlanco.setRachaActual(0);
+        } else {
+            System.out.println("¡Empate! Ambos jugadores formaron la misma cantidad de triángulos.");
+            jugadorBlanco.setRachaActual(0);
+            jugadorNegro.setRachaActual(0);
+        }
     }
-  }
 
   public static Partida crearPartida(ArrayList<Jugador> jugadores, Scanner scanner, int cantidadTablerosAMostrar,
       boolean permitirSuperposicionBandas, int maxJugadas, boolean bandaLargaFija) {
