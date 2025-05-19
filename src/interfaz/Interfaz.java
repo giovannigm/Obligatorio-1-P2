@@ -13,9 +13,6 @@ public class Interfaz {
     public Interfaz(Sistema unSistema) {
         this.sistema = unSistema;
         this.input = new Scanner(System.in);
-
-        this.sistema.agregarJugador(new Jugador("Nicolas", 20));
-        this.sistema.agregarJugador(new Jugador("Giovanni", 20));
     }
 
     public void menu() {
